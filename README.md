@@ -3,4 +3,4 @@
 
 [Demo, usage, etc…](http://nexts.github.io/Clusterize.js/)
 
-![example](http://nexts.github.io/Clusterize.js/img/table_example.gif)
+[![example](http://nexts.github.io/Clusterize.js/img/table_example.gif)](http://nexts.github.io/Clusterize.js/)
