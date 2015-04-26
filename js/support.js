@@ -147,7 +147,7 @@ var playground = {
   update: function(e) {
     e.preventDefault();
     if($(this).is(':disabled')) return;
-    playground.clusterize.update(rows['5000']);
+    playground.clusterize.update(rows['10000']);
     updateAmount(playground.$amountTag, playground.clusterize);
   },
   clear: function(e) {
