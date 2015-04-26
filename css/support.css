@@ -1,0 +1,78 @@
+/* Clusterize beautify */
+.clusterize table{
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  margin-bottom: 0;
+}
+
+/* Visualise scroll progress */
+.emulate-progress .progress-content{
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+.emulate-progress .progress-bar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  opacity: .4;
+  background: #98F398;
+}
+.emulate-progress .progress-parent{
+  position: relative;
+}
+.emulate-progress table div{
+  padding: 0.5625rem 0.625rem;
+}
+.emulate-progress table tr:not(.clusterize-no-data) td{
+  border-bottom: 1px solid #ddd;
+  padding: 0;
+}
+
+/* Steps tutorial */
+.steps .label{
+  bottom: 2px;
+}
+.steps li{
+  margin-bottom: 14px;
+}
+
+/* Various clusterize examples */
+.example-table .clusterize-scroll{
+  max-height: 400px;
+}
+.example-playground .clusterize-scroll{
+  max-height: 240px;
+}
+.example-ul{
+  width: 100%
+}
+.example-ul ul{
+  margin-bottom: 0;
+}
+.example-div{
+  width: 100%;
+  line-height: inherit;
+}
+
+/* Helpers */
+.playground-helper{
+  font-size: 10px;
+  padding: 4px 4px 2px;
+  top: -14px;
+  right: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rows-amount-helper{
+  position: absolute;
+  top: 12px;
+  right: 28px;
+}
+.rows-amount-helper.closer{
+  top: 25px;
+}

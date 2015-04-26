@@ -1,0 +1,414 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clusterize.js</title>
+<link rel="stylesheet" href="css/foundation.css" />
+<link rel="stylesheet" href="css/prism.css" />
+<link rel="stylesheet" href="css/clusterize.css">
+<link rel="stylesheet" href="css/support.css">
+<script src="js/vendor/modernizr.js"></script>
+<script src="js/vendor/jquery.js"></script>
+<script src="js/vendor/prism.js"></script>
+</head>
+<body>
+  <a href="https://github.com/NeXTs/clusterize"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+  <div class="row">
+    <div class="large-12 columns" style="margin-top: 1em;">
+      <h1>Clusterize.js</h1>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.18KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-6 columns">
+      <div class="panel clearfix th">
+        <h5>Follow these easy steps to see the benefits that clusterize.js provides</h5>
+        <hr>
+        <ul id="demoSteps" class="no-bullet steps">
+          <li><span class="label round bottom2">Step 1</span> Fill table with 10.000 rows</li>
+          <li><span class="info label round bottom2">Step 2</span> Scroll table. Feels laggy, right? &#10140;</li>
+          <li><span class="info label round bottom2">Step 3</span> Let's fix it. Init clusterize.js</li>
+          <li><span class="info label round bottom2">Step 4</span> Scroll again. Much better, huh? &#10140;</li>
+          <li><span class="info label round bottom2">Step 5</span> Let's append 100.000 rows more</li>
+          <li><span class="info label round bottom2">Step 6</span> Noticed any difference? &#10140;</li>
+          <li><span class="info label round bottom2">Step 7</span> How about 500.000 rows at once?</li>
+          <li><span class="info label round bottom2">Step 8</span> Works smoothly as well, isn't it? :) &#10140;</li>
+        </ul>
+        <a href="#" id="stepBtn" class="button small success radius right">Process step <span id="stepNum">1</span></a>
+      </div>
+    </div>
+    <div class="large-6 columns">
+      <div class="panel th example-table">
+        <div class="clusterize">
+          <table>
+            <thead>
+              <tr>
+                <th>Row №</th>
+                <th>Scroll progress %</th>
+              </tr>
+            </thead>
+          </table>
+          <div id="tableExampleScroll" class="clusterize-scroll emulate-progress">
+            <table>
+              <tbody id="tableExampleContent" class="clusterize-content">
+                <tr class="clusterize-no-data">
+                  <td>No data, follow steps on the left</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <span id="tableExampleAmount" class="label alert radius rows-amount-helper">Rows: 0</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <h5>How does it work?</h5>
+      <div class="panel callout">
+        <p>The main idea is not to pollute DOM with all used tags. Instead of that - it splits the list to clusters, then shows elements for current scroll position and adds extra rows to top and bottom of the list to emulate full height of table so that browser shows scrollbar as for full list</p>
+      </div>
+      <img class="text-center" src="img/table_example.gif" alt="Clusterize table example" style="margin-bottom: 1.25rem;">
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+        <h5>May it be used for anything other than a table? <span class="label success radius">Sure!</span></h5>
+        <div class="row">
+          <div class="large-4 small-6 columns">
+            <h6>Unordered list</h6>
+            <div class="panel th example-ul">
+              <div id="ulExampleScroll" class="clusterize-scroll emulate-progress">
+                <ul id="ulExampleContent" class="clusterize-content">
+                  <li class="clusterize-no-data">Loading...</li>
+                </ul>
+              </div>
+              <span id="ulExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
+            </div>
+          </div>
+          <div class="large-4 small-6 columns">
+            <h6>DIV's</h6>
+            <div class="panel th example-div">
+              <div id="divExampleScroll" class="clusterize-scroll emulate-progress">
+                <div id="divExampleContent" class="clusterize-content">
+                  <div class="clusterize-no-data">Loading...</div>
+                </div>
+              </div>
+              <span id="divExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
+            </div>
+          </div>
+          <div class="large-4 hide-for-medium-only columns">
+            <h6>and so on...</h6>
+            <p>Basically, it may be almost any tag you wish. Exception is ordered list for obvious reasons.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <h5>Quickstart</h5>
+        <div class="row">
+          <div class="large-6 small-6 columns">
+            <pre><code class="language-javascript">bower install clusterize</code></pre>
+          </div>
+          <div class="large-6 columns small-6" style="padding: 1em;margin: .5em 0;">or <a href="https://github.com/NeXTs/clusterize" target="_blank">download from GitHub</a></div>
+        </div>
+        <h5>Include it on your page</h5>
+        <pre><code class="language-markup">&#x3C;link&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x20;href&#x3D;&#x22;bower/clusterize/clusterize.css&#x22;&#x3E;
+&#x3C;script&#x20;src&#x3D;&#x22;bower/clusterize/clusterize.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
+</code></pre>
+        <h5>Usage</h5>
+        <dl class="sub-nav" id="usageNav" style="margin-bottom: .5rem">
+          <dt>Filter:</dt>
+          <dd class="active" data-tab="usageTable"><a href="#">TABLE</a></dd>
+          <dd data-tab="usageUl"><a href="#">UL</a></dd>
+          <dd data-tab="usageDiv"><a href="#">DIV</a></dd>
+        </dl>
+        <div class="row">
+          <div class="large-7 medium-7 columns">
+            <pre id="usageTableHTML"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div class=&quot;clusterize&quot;&gt;
+  &lt;table&gt;
+    &lt;thead&gt;&lt;/thead&gt;
+  &lt;/table&gt;
+  &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+    &lt;table&gt;
+      &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+        &lt;tr class=&quot;clusterize-no-data&quot;&gt;
+          &lt;td&gt;Loading data...&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageUlHTML" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;ul id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageDivHTML" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;div id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;div class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+          </div>
+          <div class="large-5 medium-5 columns">
+            <pre id="usageTableJS"><code class="language-javascript">
+// JavaScript
+var data = ['&lt;tr&gt;…&lt;/tr&gt;', '&lt;tr&gt;…&lt;/tr&gt;', …];
+var cluterize = new Clusterize({
+  rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageUlJS" class="hide"><code class="language-javascript">
+// JavaScript
+var data = ['&lt;li&gt;…&lt;/li&gt;', '&lt;li&gt;…&lt;/li&gt;', …];
+var cluterize = new Clusterize({
+  rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageDivJS" class="hide"><code class="language-javascript">
+// JavaScript
+var data = ['&lt;div&gt;…&lt;/div&gt;', '&lt;div&gt;…&lt;/div&gt;', …];
+var cluterize = new Clusterize({
+  rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <h5>Options</h5>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>data</td>
+              <td><b>Required</b></td>
+              <td>Array of tags in String. <b>Example:</b> ['&lt;tr&gt;&lt;td&gt;First&lt;/td&gt;&lt;/tr&gt;', '&lt;tr&gt;&lt;td&gt;Second&lt;/td&gt;&lt;/tr&gt;'];</td>
+            </tr>
+            <tr>
+              <td>scrollId</td>
+              <td><b>Required</b></td>
+              <td>Id of parent tag which used as scroll area. <b>Example: 'scrollArea'</b></td>
+            </tr>
+            <tr>
+              <td>contentId</td>
+              <td><b>Required</b></td>
+              <td>Id of tag where content will be placed. <b>Example: 'contentArea'</b></td>
+            </tr>
+            <tr>
+              <td>rows_in_block</td>
+              <td>Optional</td>
+              <td>Amount of rows in block. Increase means browser will be more loaded, decrease means browser will have to update clusters more often. <a href="#playground">This example</a> would help to understand this property easier. Good practice will be to keep rows_in_block as amount of visible rows in your list.  <b>Default: 50</b></td>
+            </tr>
+            <tr>
+              <td>blocks_in_cluster</td>
+              <td>Optional</td>
+              <td>Amount of blocks in cluster. When scroll reaches last block - content replaces with next cluster. <b>Default: 4</b></td>
+            </tr>
+            <tr>
+              <td>tag</td>
+              <td>Optional</td>
+              <td>Tag name for supporting elements: spacing extra rows, empty-data row. It will be determined by itself once data provided, so it's optional. But if your data is not provided during initialization - it is better to specify this option because otherwise plugin will be unable to correctly render empty-data row. <b>Default: null</b></td>
+            </tr>
+            <tr>
+              <td>show_no_data_row</td>
+              <td>Optional</td>
+              <td>Specifies whether to display an "empty" placeholder row if there is no data provided. <b>Default: true</b></td>
+            </tr>
+            <tr>
+              <td>no_data_text</td>
+              <td>Optional</td>
+              <td>Text for placeholder element if there is no data provided. <b>Default: 'No data'</b></td>
+            </tr>
+            <tr>
+              <td>no_data_class</td>
+              <td>Optional</td>
+              <td>Class for placeholder element if there is no data provided. <b>Default: 'clusterize-no-data'</b></td>
+            </tr>
+            <tr>
+              <td>keep_parity</td>
+              <td>Optional</td>
+              <td>Add extra tag to keep parity of rows. Useful when used :nth-child(even/odd). <b>Default: true</b></td>
+            </tr>
+            <tr>
+              <td>verify_change</td>
+              <td>Optional</td>
+              <td>Verify data changes before add to DOM. May be useful in case of frequent "falsy" updates with unchanged data. <b>Default: false</b></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Methods</h5>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Parameter</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>.update()</td>
+              <td><b>Array</b></td>
+              <td>Updates list with new data</td>
+            </tr>
+            <tr>
+              <td>.append()</td>
+              <td><b>Array</b></td>
+              <td>Appends new data to the list</td>
+            </tr>
+            <tr>
+              <td>.getRowsAmount()</td>
+              <td></td>
+              <td>Returns total amount of rows</td>
+            </tr>
+            <tr>
+              <td>.clear()</td>
+              <td></td>
+              <td>Clears the list</td>
+            </tr>
+            <tr>
+              <td>.destroy()</td>
+              <td><b>Bool</b></td>
+              <td>Destroys clusterize instance. Parameter: true - removes all data from the list, not specify or false - inserts all hidden data to the list</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <a name="playground"></a>
+        <h5>Playground</h5>
+        <div class="row">
+          <div class="large-6 medium-6 columns">
+            <div class="panel th">
+              <label for="">Change <b>rows_in_block</b> option</label>
+              <div class="row">
+                <div class="small-10 medium-10 columns">
+                  <div class="range-slider radius freeze-if-disabled" data-slider data-options="step: 5; start: 5; end: 500; display_selector: #playgroundRange;  initial: 50;">
+                    <span class="range-slider-handle" role="slider"></span>
+                    <span class="range-slider-active-segment"></span>
+                    <input type="hidden">
+                  </div>
+                </div>
+                <div class="small-2 medium-2 columns">
+                  <span id="playgroundRange" style="display: block;margin-top: 28px;"></span>
+                </div>
+              </div>
+              <label for="">Methods</label>
+              <button id="playgroundAppend" class="tiny radius button freeze-if-disabled">Append 5.000 rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.append(data);">&lt;/&gt;</span>
+              <button id="playgroundUpdate" class="tiny radius button freeze-if-disabled">Update to initial 10.000 rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.update(data);">&lt;/&gt;</span>
+              <button id="playgroundGetRowsAmount" class="tiny radius button freeze-if-disabled">Get rows amount</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.getRowsAmount();">&lt;/&gt;</span>
+              <button id="playgroundClear" class="tiny radius button freeze-if-disabled">Clear table</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.clear();">&lt;/&gt;</span>
+              <button id="playgroundInit" class="tiny radius button success show-if-disabled" style="display: none;">Init clusterize</button>
+              <label for="">Destroy table</label>
+              <button id="playgroundDestroyTrue" class="tiny radius button freeze-if-disabled">With removing rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.destroy(true);">&lt;/&gt;</span>
+              <button id="playgroundDestroyFalse" class="tiny radius button freeze-if-disabled">Inserts all rows to the table</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.destroy();">&lt;/&gt;</span>
+            </div>
+          </div>
+          <div class="large-6 medium-6 columns">
+            <div class="panel th example-playground">
+              <div class="clusterize">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Row №</th>
+                      <th>Scroll progress %</th>
+                    </tr>
+                  </thead>
+                </table>
+                <div class="clusterize-scroll emulate-progress" id="playgroundScroll">
+                  <table>
+                    <tbody id="playgroundContent" class="clusterize-content">
+                      <tr class="clusterize-no-data">
+                        <td>Loading...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <span id="playgroundAmount" class="label alert radius rows-amount-helper">Rows: 0</span>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <h5>Rendered structure and classses (in case you decided to use tables)</h5>
+        <pre><code class="language-markup">
+&lt;div class=&quot;clusterize&quot;&gt;
+  &lt;table&gt;
+    &lt;thead&gt;&lt;/thead&gt;
+  &lt;/table&gt;
+  &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+    &lt;table&gt;
+      &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+        &lt;tr class=&quot;clusterize-extra-row clusterize-keep-parity&quot;&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;clusterize-extra-row clusterize-top-space&quot; style=&quot;height:12345px;&quot;&gt;&lt;/tr&gt;
+
+        &lt;!--tr&gt;Your (rows_in_block * blocks_in_cluster) rows&lt;/tr--&gt;
+        
+        &lt;tr class=&quot;clusterize-extra-row clusterize-bottom-space&quot; style=&quot;height:12345px;&quot;&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 1em;">
+    <div class="large-12 columns">
+      <h5>Contributor</h5>
+      <div class="row">
+        <div class="large-6 columns">
+          Denis Lukov [ <a href="https://github.com/NeXTs" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/profile/view?id=203377904" target="_blank">LinkedIn</a> ]
+        </div>
+        <div class="large-6 columns text-right">Licensed under the MIT license</div>
+      </div>
+    </div>
+  </div>  
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/clusterize.js"></script>
+  <script src="js/support.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-39553257-3', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>
