@@ -6,7 +6,7 @@ $.each(rows, function(_size, row) {
   asyncRowsGenerator(_size, row, 'table');
 });
 var rows_ul = [], rows_div = [];
-asyncRowsGenerator(5e+5, rows_ul, 'ul');
+asyncRowsGenerator(5e+4, rows_ul, 'ul');
 setTimeout(function() {
   var clusterize = new Clusterize({
     rows: rows_ul,
@@ -17,7 +17,7 @@ setTimeout(function() {
   updateAmount($('#ulExampleAmount'), clusterize);
 }, 10);
 
-asyncRowsGenerator(5e+5, rows_div, 'div');
+asyncRowsGenerator(5e+4, rows_div, 'div');
 setTimeout(function() {
   var clusterize = new Clusterize({
     rows: rows_div,
