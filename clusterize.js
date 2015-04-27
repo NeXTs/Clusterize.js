@@ -1,8 +1,13 @@
-/*! Clusterize.js - v0.0.1 - 2015-04-23
+/*! Clusterize.js - v0.0.2 - 2015-04-28
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
-var Clusterize = (function() {
+;(function(name, definition) {
+    if (typeof module != 'undefined') module.exports = definition();
+    else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
+    else this[name] = definition();
+}('Clusterize', function() {
+
   "use strict"
   var Clusterize = function(data) {
     if( ! (this instanceof Clusterize))
@@ -166,4 +171,4 @@ var Clusterize = (function() {
     }
   }
   return Clusterize;
-}());
+}));
