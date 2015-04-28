@@ -28,7 +28,6 @@ setTimeout(function() {
   updateAmount($('#divExampleAmount'), clusterize);
 }, 10);
 
-
 /**
  * Initialize steps tutorial
  */
@@ -37,18 +36,19 @@ function initStepTutorial() {
   $amountTag = $('#tableExampleAmount'),
   steps = {
     fillInitial: function() {
-      $('#tableExampleContent .clusterize-no-data td').text('Inserting 10000 rows, wait a bit...');
+      $('#tableExampleContent .clusterize-no-data td').text('Inserting 5000 rows, wait a bit...');
       setTimeout(function() {
-        $('#tableExampleContent').html(rows['10000'].join(''));
-        updateAmount($amountTag, 10000);
+        $('#tableExampleContent').html(rows['5000'].join(''));
+        updateAmount($amountTag, 5000);
         steps.initScrollSpy();
       }, 0);
     },
     initClusterize: function() {
       tableClusterize = new Clusterize({
-        rows: rows['10000'],
+        rows: rows['5000'],
         scrollId: 'tableExampleScroll',
-        contentId: 'tableExampleContent'
+        contentId: 'tableExampleContent',
+        rows_in_block: 15
       });
       updateAmount($amountTag, tableClusterize);
       steps.initScrollSpy();
@@ -176,9 +176,9 @@ var playground = {
   },
   initButtons: function() {
     var slider_timeout;
-    var prev_value = 50;
+    var prev_value = 10;
     $('.range-slider').on('change.fndtn.slider', function(){
-      var value = $(this).attr('data-slider');
+      var value = parseFloat($(this).attr('data-slider'));
       if(value == prev_value) return;
       prev_value = value;
       clearTimeout(slider_timeout);
@@ -197,7 +197,7 @@ var playground = {
   },
   init: function() {
     playground.initButtons();
-    playground.initClusterize();
+    playground.initClusterize(10);
   }
 }
 
