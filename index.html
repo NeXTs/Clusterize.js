@@ -218,14 +218,14 @@ var clusterize = new Clusterize({
               <td>Array of tags in String. <b>Example:</b> ['&lt;tr&gt;&lt;td&gt;First&lt;/td&gt;&lt;/tr&gt;', '&lt;tr&gt;&lt;td&gt;Second&lt;/td&gt;&lt;/tr&gt;'];</td>
             </tr>
             <tr>
-              <td>scrollId</td>
+              <td>scrollId or scrollElem</td>
               <td><b>Required</b></td>
-              <td>Id of parent tag which used as scroll area. <b>Example: 'scrollArea'</b></td>
+              <td>Id or DOM node of parent tag which used as scroll area. <b>Example: scrollId: 'scrollArea' or scrollElem: document.getElementById('scrollArea')</b></td>
             </tr>
             <tr>
-              <td>contentId</td>
+              <td>contentId or contentElem</td>
               <td><b>Required</b></td>
-              <td>Id of tag where content will be placed. <b>Example: 'contentArea'</b></td>
+              <td>Id or DOM node of tag where content will be placed. <b>Example: contentId: 'contentArea' or contentElem: document.getElementById('contentArea')</b></td>
             </tr>
             <tr>
               <td>rows_in_block</td>
@@ -391,14 +391,24 @@ var clusterize = new Clusterize({
 </code></pre>
     </div>
   </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <h5>Changes history</h5>
+      <ul class="disc">
+        <li><b>0.1.0</b> Added contentElem and scrollElem options</li>
+        <li><b>0.0.2</b> Added AMD and CommonJS support</li>
+        <li><b>0.0.1</b> Initial version</li>
+      </ul>
+    </div>
+  </div>
   <div class="row" style="margin-bottom: 1em;">
     <div class="large-12 columns">
       <h5>Contributor</h5>
       <div class="row">
-        <div class="large-6 columns">
-          Denis Lukov [ <a href="https://github.com/NeXTs" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/profile/view?id=203377904" target="_blank">LinkedIn</a> ]
+        <div class="large-8 medium-6 columns">
+          Denis Lukov [ <a href="https://github.com/NeXTs" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/profile/view?id=203377904" target="_blank">LinkedIn</a> ], special thanks to <a href="https://github.com/igorrynkovoy" target="_blank">igorrynkovoy</a> for the concept
         </div>
-        <div class="large-6 columns text-right">Licensed under the MIT license</div>
+        <div class="large-4 medium-6 columns text-right">Licensed under the MIT license</div>
       </div>
     </div>
   </div>  

@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.0.2 - 2015-04-28
+/*! Clusterize.js - v0.1.0 - 2015-04-29
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -36,8 +36,18 @@
         ? data[name]
         : defaults[name];
     });
-    self.scrollElem = document.getElementById(data.scrollId);
-    self.contentElem = document.getElementById(data.contentId);
+
+    self.scrollElem = data.scrollId
+      ? document.getElementById(data.scrollId)
+      : data.scrollElem;
+    self.contentElem = data.contentId
+      ? document.getElementById(data.contentId)
+      : data.contentElem;
+
+    if( ! self.contentElem)
+      throw new Error("Error! Could not find content element");
+    if( ! self.scrollElem)
+      throw new Error("Error! Could not find scroll element");
 
     // private parameters
     var rows = data.rows || [],
