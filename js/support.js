@@ -12,7 +12,7 @@ setTimeout(function() {
     rows: rows_ul,
     scrollId: 'ulExampleScroll',
     contentId: 'ulExampleContent',
-    rows_in_block: 10
+    rows_in_block: 20
   });
   updateAmount($('#ulExampleAmount'), clusterize);
 }, 10);
@@ -23,7 +23,7 @@ setTimeout(function() {
     rows: rows_div,
     scrollId: 'divExampleScroll',
     contentId: 'divExampleContent',
-    rows_in_block: 10
+    rows_in_block: 20
   });
   updateAmount($('#divExampleAmount'), clusterize);
 }, 10);
@@ -48,7 +48,7 @@ function initStepTutorial() {
         rows: rows['5000'],
         scrollId: 'tableExampleScroll',
         contentId: 'tableExampleContent',
-        rows_in_block: 15
+        rows_in_block: 25
       });
       updateAmount($amountTag, tableClusterize);
       steps.initScrollSpy();
@@ -176,7 +176,7 @@ var playground = {
   },
   initButtons: function() {
     var slider_timeout;
-    var prev_value = 10;
+    var prev_value = 25;
     $('.range-slider').on('change.fndtn.slider', function(){
       var value = parseFloat($(this).attr('data-slider'));
       if(value == prev_value) return;
@@ -197,7 +197,7 @@ var playground = {
   },
   init: function() {
     playground.initButtons();
-    playground.initClusterize(10);
+    playground.initClusterize(25);
   }
 }
 
