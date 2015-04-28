@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.0.2 - 2015-04-28
+/*! Clusterize.js - v0.0.3 - 2015-04-29
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -36,18 +36,17 @@
         ? data[name]
         : defaults[name];
     });
-    if(data.scrollId)
-      self.scrollElem = document.getElementById(data.scrollId);
-    if(data.scrollElement)
-      self.scrollElem = data.scrollElement;
-    if(data.contentId)
-      self.contentElem = document.getElementById(data.contentId);
-    if(data.contentElement)
-      self.contentElem = data.contentElement;
 
-    if(!self.contentElem)
+    self.scrollElem = data.scrollId
+      ? document.getElementById(data.scrollId)
+      : data.scrollElem;
+    self.contentElem = data.contentId
+      ? document.getElementById(data.contentId)
+      : data.contentElem;
+
+    if( ! self.contentElem)
       throw new Error("Error! Could not find content element");
-    if(!self.scrollElem)
+    if( ! self.scrollElem)
       throw new Error("Error! Could not find scroll element");
 
     // private parameters
