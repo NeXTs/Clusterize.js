@@ -36,8 +36,19 @@
         ? data[name]
         : defaults[name];
     });
-    self.scrollElem = document.getElementById(data.scrollId);
-    self.contentElem = document.getElementById(data.contentId);
+    if(data.scrollId)
+      self.scrollElem = document.getElementById(data.scrollId);
+    if(data.scrollElement)
+      self.scrollElem = data.scrollElement;
+    if(data.contentId)
+      self.contentElem = document.getElementById(data.contentId);
+    if(data.contentElement)
+      self.contentElem = data.contentElement;
+
+    if(!self.contentElem)
+      throw new Error("Error! Could not find content element");
+    if(!self.scrollElem)
+      throw new Error("Error! Could not find scroll element");
 
     // private parameters
     var rows = data.rows || [],
