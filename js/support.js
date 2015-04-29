@@ -48,7 +48,8 @@ function initStepTutorial() {
         rows: rows['5000'],
         scrollId: 'tableExampleScroll',
         contentId: 'tableExampleContent',
-        rows_in_block: 25
+        rows_in_block: 25,
+        tag: 'tr'
       });
       updateAmount($amountTag, tableClusterize);
       steps.initScrollSpy();
@@ -117,18 +118,18 @@ var playground = {
   clusterize: null,
   $amountTag: $('#playgroundAmount'),
   initClusterize: function(rows_in_block) {
-      var opts = {
-        rows: rows['10000'],
-        scrollId: 'playgroundScroll',
-        contentId: 'playgroundContent',
-        tag: 'tr'
-      };
-      if(rows_in_block) {
-        opts['rows_in_block'] = rows_in_block;
-      }
-      playground.clusterize = new Clusterize(opts);
-      updateAmount(playground.$amountTag, playground.clusterize);
-      playground.unfreeze();
+    var opts = {
+      rows: rows['10000'],
+      scrollId: 'playgroundScroll',
+      contentId: 'playgroundContent',
+      tag: 'tr'
+    };
+    if(rows_in_block) {
+      opts['rows_in_block'] = rows_in_block;
+    }
+    playground.clusterize = new Clusterize(opts);
+    updateAmount(playground.$amountTag, playground.clusterize);
+    playground.unfreeze();
   },
   freeze: function() {
     $('.freeze-if-disabled').addClass('disabled').prop('disabled', true);

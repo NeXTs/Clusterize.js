@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.1.0 - 2015-04-29
+/*! Clusterize.js - v0.2.0 - 2015-04-29
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -7,8 +7,20 @@
     else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
     else this[name] = definition();
 }('Clusterize', function() {
-
   "use strict"
+
+  // detect ie9 and lower
+  // https://gist.github.com/padolsey/527683#comment-786682
+  var ie = (function(){
+    for( var v = 3,
+             el = document.createElement('b'),
+             all = el.all || [];
+         el.innerHTML = '<!--[if gt IE ' + (++v) + ']><i><![endif]-->',
+         all[0];
+       ){}
+    return v > 4 ? v : document.documentMode;
+  }());
+
   var Clusterize = function(data) {
     if( ! (this instanceof Clusterize))
       return new Clusterize(data);
@@ -74,7 +86,7 @@
     // public methods
     self.destroy = function(clean) {
       self.scrollElem.removeEventListener('scroll', scrollEv);
-      self.contentElem.innerHTML = clean ? self.generateEmptyRow().join('') : rows.join('');
+      self.html(clean ? self.generateEmptyRow().join('') : rows.join(''));
     }
     self.update = function(new_rows) {
       rows = self.isArray(new_rows)
@@ -106,7 +118,7 @@
       var opts = this.options;
       if( ! opts.item_height || ! opts.tag) {
         if( ! rows.length) return;
-        this.contentElem.innerHTML = rows[0] + rows[0] + rows[0];
+        this.html(rows[0] + rows[0] + rows[0]);
         var node = this.contentElem.children[1];
         if( ! opts.tag) opts.tag = node.tagName.toLowerCase();
         opts.item_height = node.offsetHeight;
@@ -168,7 +180,24 @@
     insertToDOM: function(rows, cache) {
       var data = this.generate(rows, this.getClusterNum()).join('');
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(data, cache)) {
-        this.contentElem.innerHTML = data;
+        this.html(data);
+      }
+    },
+    // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
+    html: function(data) {
+      var contentElem = this.contentElem;
+      if(ie && ie <= 9 && this.options.tag == 'tr') {
+        var div = document.createElement('div'), last;
+        div.innerHTML = '<table><tbody>' + data + '</tbody></table>'
+        while((last = contentElem.lastChild)) {
+          contentElem.removeChild(last)
+        }
+        var rows = Array.prototype.slice.call(div.firstChild.firstChild.childNodes);
+        while (rows.length) {
+          contentElem.appendChild(rows.shift());
+        }
+      } else {
+        contentElem.innerHTML = data;
       }
     },
     dataChanged: function(data, cache) {
