@@ -74,12 +74,12 @@
 
     // restore the scroll position
     self.scrollElem.scrollTop = scrollTop;
-    
+
     // adding scroll handler
     var last_cluster = false,
     scrollEv = function () {
       if (last_cluster != (last_cluster = self.getClusterNum()))
-        self.insertToDOM(rows, cache);         
+        self.insertToDOM(rows, cache);
     }
     self.scrollElem.addEventListener('scroll', scrollEv);
 
@@ -136,16 +136,19 @@
     generateEmptyRow: function() {
       var opts = this.options;
       if( ! opts.tag || ! opts.show_no_data_row) return [];
-      var empty_row = '<' + opts.tag + ' class="' + opts.no_data_class + '">';
+      var empty_row = document.createElement(opts.tag);
+      var string_no_data = document.createTextNode(opts.no_data_text);
+      empty_row.classList.add(opts.no_data_class);
       switch(opts.tag) {
         case 'tr':
-          empty_row += '<td>' + opts.no_data_text + '</td>';
+          var row_content = document.createElement('td');
+          row_content.appendChild(string_no_data);
+          empty_row.appendChild(row_content);
           break;
         default:
-          empty_row += opts.no_data_text;
+          empty_row.appendChild(document.createTextNode(string_no_data))
       }
-      empty_row += '</' + opts.tag + '>';
-      return [empty_row];
+      return [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num) {
@@ -165,15 +168,34 @@
         items_end = items_start + opts.rows_in_cluster,
         top_margin = items_start * opts.item_height,
         bottom_margin = (rows_len - items_end) * opts.item_height,
+        to_push = document.createElement(opts.tag),
         this_cluster_items = [];
       if(top_margin > 0) {
-        opts.keep_parity && this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-keep-parity"></' + opts.tag + '>');
-        this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-top-space" style="height:' + top_margin + 'px;"></' + opts.tag + '>');
+        to_push.className = 'clusterize-extra-row';
+        if (opts.keep_parity) {
+          to_push.classList.add('clusterize-keep-parity');
+          this_cluster_items.push(to_push.outerHTML);
+          to_push.classList.remove('clusterize-keep-parity');
+        }
+        while (to_push.lastChild) {
+          to_push.removeChild(to_push.lastChild);
+        }
+        to_push.classList.add('clusterize-top-space');
+        to_push.style.height = top_margin + 'px';
+        this_cluster_items.push(to_push.outerHTML);
       }
       for (var i = items_start; i < items_end; i++) {
         rows[i] && this_cluster_items.push(rows[i]);
       }
-      bottom_margin > 0 && this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-bottom-space" style="height:' + bottom_margin + 'px;"></' + opts.tag + '>');
+      if (bottom_margin > 0) {
+        while (to_push.lastChild) {
+          to_push.removeChild(to_push.lastChild);
+        }
+        to_push.className = ['clusterize-extra-row', 'clusterize-bottom-space'].join(' ');
+        to_push.style.height = bottom_margin + 'px';
+        this_cluster_items.push(to_push.outerHTML);
+      }
+      // console.log(this_cluster_items);
       return this_cluster_items;
     },
     // if necessary verify data changed and insert to DOM
@@ -188,7 +210,8 @@
       var contentElem = this.contentElem;
       if(ie && ie <= 9 && this.options.tag == 'tr') {
         var div = document.createElement('div'), last;
-        div.innerHTML = '<table><tbody>' + data + '</tbody></table>'
+        div.appendChild(document.createElement('table'));
+        div.firstChild.firstChild.appendChild(data);
         while((last = contentElem.lastChild)) {
           contentElem.removeChild(last)
         }
