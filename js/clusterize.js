@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.2.0 - 2015-04-29
+/*! Clusterize.js - v0.3.0 - 2015-04-30
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -74,12 +74,12 @@
 
     // restore the scroll position
     self.scrollElem.scrollTop = scrollTop;
-    
+
     // adding scroll handler
     var last_cluster = false,
     scrollEv = function () {
       if (last_cluster != (last_cluster = self.getClusterNum()))
-        self.insertToDOM(rows, cache);         
+        self.insertToDOM(rows, cache);
     }
     self.scrollElem.addEventListener('scroll', scrollEv);
 
@@ -136,16 +136,14 @@
     generateEmptyRow: function() {
       var opts = this.options;
       if( ! opts.tag || ! opts.show_no_data_row) return [];
-      var empty_row = '<' + opts.tag + ' class="' + opts.no_data_class + '">';
-      switch(opts.tag) {
-        case 'tr':
-          empty_row += '<td>' + opts.no_data_text + '</td>';
-          break;
-        default:
-          empty_row += opts.no_data_text;
+      var empty_row = document.createElement(opts.tag),
+        no_data_content = document.createTextNode(opts.no_data_text);
+      empty_row.className = opts.no_data_class;
+      if(opts.tag == 'tr') {
+        no_data_content = document.createElement('td').appendChild(no_data_content);
       }
-      empty_row += '</' + opts.tag + '>';
-      return [empty_row];
+      empty_row.appendChild(no_data_content);
+      return [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num) {
@@ -163,18 +161,25 @@
       var items_start = cluster_num * opts.rows_in_cluster - opts.rows_in_block * cluster_num,
         items_start = items_start > 0 ? items_start : 0,
         items_end = items_start + opts.rows_in_cluster,
-        top_margin = items_start * opts.item_height,
-        bottom_margin = (rows_len - items_end) * opts.item_height,
+        top_space = items_start * opts.item_height,
+        bottom_space = (rows_len - items_end) * opts.item_height,
         this_cluster_items = [];
-      if(top_margin > 0) {
-        opts.keep_parity && this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-keep-parity"></' + opts.tag + '>');
-        this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-top-space" style="height:' + top_margin + 'px;"></' + opts.tag + '>');
+      if(top_space > 0) {
+        opts.keep_parity && this_cluster_items.push(this.renderExtraTag('keep-parity'));
+        this_cluster_items.push(this.renderExtraTag('top-space', top_space));
       }
       for (var i = items_start; i < items_end; i++) {
         rows[i] && this_cluster_items.push(rows[i]);
       }
-      bottom_margin > 0 && this_cluster_items.push('<' + opts.tag + ' class="clusterize-extra-row clusterize-bottom-space" style="height:' + bottom_margin + 'px;"></' + opts.tag + '>');
+      bottom_space > 0 && this_cluster_items.push(this.renderExtraTag('bottom-space', bottom_space));
       return this_cluster_items;
+    },
+    renderExtraTag: function(class_name, height) {
+      var tag = document.createElement(this.options.tag),
+        clusterize_prefix = 'clusterize-';
+      tag.className = [clusterize_prefix + 'extra-row', clusterize_prefix + class_name].join(' ');
+      height && (tag.style.height = height + 'px');
+      return tag.outerHTML;
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
