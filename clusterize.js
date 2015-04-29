@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.2.0 - 2015-04-29
+/*! Clusterize.js - v0.3.0 - 2015-04-30
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -136,18 +136,13 @@
     generateEmptyRow: function() {
       var opts = this.options;
       if( ! opts.tag || ! opts.show_no_data_row) return [];
-      var empty_row = document.createElement(opts.tag);
-      var string_no_data = document.createTextNode(opts.no_data_text);
-      empty_row.classList.add(opts.no_data_class);
-      switch(opts.tag) {
-        case 'tr':
-          var row_content = document.createElement('td');
-          row_content.appendChild(string_no_data);
-          empty_row.appendChild(row_content);
-          break;
-        default:
-          empty_row.appendChild(document.createTextNode(string_no_data))
+      var empty_row = document.createElement(opts.tag),
+        no_data_content = document.createTextNode(opts.no_data_text);
+      empty_row.className = opts.no_data_class;
+      if(opts.tag == 'tr') {
+        no_data_content = document.createElement('td').appendChild(no_data_content);
       }
+      empty_row.appendChild(no_data_content);
       return [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
@@ -166,37 +161,25 @@
       var items_start = cluster_num * opts.rows_in_cluster - opts.rows_in_block * cluster_num,
         items_start = items_start > 0 ? items_start : 0,
         items_end = items_start + opts.rows_in_cluster,
-        top_margin = items_start * opts.item_height,
-        bottom_margin = (rows_len - items_end) * opts.item_height,
-        to_push = document.createElement(opts.tag),
+        top_space = items_start * opts.item_height,
+        bottom_space = (rows_len - items_end) * opts.item_height,
         this_cluster_items = [];
-      if(top_margin > 0) {
-        to_push.className = 'clusterize-extra-row';
-        if (opts.keep_parity) {
-          to_push.classList.add('clusterize-keep-parity');
-          this_cluster_items.push(to_push.outerHTML);
-          to_push.classList.remove('clusterize-keep-parity');
-        }
-        while (to_push.lastChild) {
-          to_push.removeChild(to_push.lastChild);
-        }
-        to_push.classList.add('clusterize-top-space');
-        to_push.style.height = top_margin + 'px';
-        this_cluster_items.push(to_push.outerHTML);
+      if(top_space > 0) {
+        opts.keep_parity && this_cluster_items.push(this.renderExtraTag('keep-parity'));
+        this_cluster_items.push(this.renderExtraTag('top-space', top_space));
       }
       for (var i = items_start; i < items_end; i++) {
         rows[i] && this_cluster_items.push(rows[i]);
       }
-      if (bottom_margin > 0) {
-        while (to_push.lastChild) {
-          to_push.removeChild(to_push.lastChild);
-        }
-        to_push.className = ['clusterize-extra-row', 'clusterize-bottom-space'].join(' ');
-        to_push.style.height = bottom_margin + 'px';
-        this_cluster_items.push(to_push.outerHTML);
-      }
-      // console.log(this_cluster_items);
+      bottom_space > 0 && this_cluster_items.push(this.renderExtraTag('bottom-space', bottom_space));
       return this_cluster_items;
+    },
+    renderExtraTag: function(class_name, height) {
+      var tag = document.createElement(this.options.tag),
+        clusterize_prefix = 'clusterize-';
+      tag.className = [clusterize_prefix + 'extra-row', clusterize_prefix + class_name].join(' ');
+      height && (tag.style.height = height + 'px');
+      return tag.outerHTML;
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
@@ -210,8 +193,7 @@
       var contentElem = this.contentElem;
       if(ie && ie <= 9 && this.options.tag == 'tr') {
         var div = document.createElement('div'), last;
-        div.appendChild(document.createElement('table'));
-        div.firstChild.firstChild.appendChild(data);
+        div.innerHTML = '<table><tbody>' + data + '</tbody></table>'
         while((last = contentElem.lastChild)) {
           contentElem.removeChild(last)
         }
