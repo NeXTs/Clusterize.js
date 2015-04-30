@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.3.0 - 2015-04-30
+/*! Clusterize.js - v0.3.1 - 2015-04-30
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -49,17 +49,13 @@
         : defaults[name];
     });
 
-    self.scrollElem = data.scrollId
-      ? document.getElementById(data.scrollId)
-      : data.scrollElem;
-    self.contentElem = data.contentId
-      ? document.getElementById(data.contentId)
-      : data.contentElem;
-
-    if( ! self.contentElem)
-      throw new Error("Error! Could not find content element");
-    if( ! self.scrollElem)
-      throw new Error("Error! Could not find scroll element");
+    ['scroll', 'content'].forEach(function(name) {
+      self[name + 'Elem'] = data[name + 'Id']
+        ? document.getElementById(data[name + 'Id'])
+        : data[name + 'Elem'];
+      if( ! self[name + 'Elem'])
+        throw new Error("Error! Could not find " + name + " element");
+    });
 
     // private parameters
     var rows = data.rows || [],
@@ -140,9 +136,10 @@
         no_data_content = document.createTextNode(opts.no_data_text);
       empty_row.className = opts.no_data_class;
       if(opts.tag == 'tr') {
-        no_data_content = document.createElement('td').appendChild(no_data_content);
+        var td = document.createElement('td');
+        td.appendChild(no_data_content);
       }
-      empty_row.appendChild(no_data_content);
+      empty_row.appendChild(td || no_data_content);
       return [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
