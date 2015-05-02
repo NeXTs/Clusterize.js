@@ -48,11 +48,16 @@
 .example-playground .clusterize-scroll{
   max-height: 240px;
 }
-.example-ul{
+.example-ul,
+.example-ol{
   width: 100%
 }
 .example-ul ul{
   margin-bottom: 0;
+}
+.example-ol ol{
+  margin-bottom: 0;
+  margin-left: 4rem;
 }
 .example-div{
   width: 100%;

@@ -17,6 +17,17 @@ setTimeout(function() {
   updateAmount($('#ulExampleAmount'), clusterize);
 }, 10);
 
+setTimeout(function() {
+  var clusterize = new Clusterize({
+    rows: rows_ul,
+    scrollId: 'olExampleScroll',
+    contentId: 'olExampleContent',
+    rows_in_block: 20,
+    keep_parity: true
+  });
+  updateAmount($('#olExampleAmount'), clusterize);
+}, 10);
+
 asyncRowsGenerator(5e+4, rows_div, 'div');
 setTimeout(function() {
   var clusterize = new Clusterize({
@@ -252,7 +263,7 @@ function asyncRowsGenerator(_size, row, type) {
         template += '<td><div class="progress-parent"><span class="progress-bar" ' + percents_arr.shift() + '></span><span class="progress-content"><b>' + i + '</b></span></div></td>';
         template += '<td><div class="progress-parent"><span class="progress-bar" ' + percents_arr.shift() + '></span><span class="progress-content">' + percents.toFixed(2) + '%</span></div></td>';
         template += '</tr>';
-      } else if(type == 'ul') {
+      } else if(type == 'ul' || type == 'ol') {
         percents_arr = processPercentage(percents * 1, 1, true);
         template = '<li><div class="progress-parent"><span class="progress-bar" ' + percents_arr.shift() + '></span><span class="progress-content">Row № <b>' + i + '</b>, <b>' + percents.toFixed(2) + '</b>%</span></div></li>';
       } else if(type == 'div') {

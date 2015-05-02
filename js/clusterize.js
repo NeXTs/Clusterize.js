@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.3.1 - 2015-04-30
+/*! Clusterize.js - v0.4.0 - 2015-05-02
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -34,6 +34,7 @@
       cluster_height: 0,
       blocks_in_cluster: 4,
       tag: null,
+      content_tag: null,
       show_no_data_row: true,
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
@@ -63,7 +64,7 @@
       scrollTop = self.scrollElem.scrollTop;
 
     // get row height
-    self.calcClusterHeight(rows);
+    self.exploreEnvironment(rows);
 
     // append initial data
     self.insertToDOM(rows, cache);
@@ -109,9 +110,10 @@
   }
   Clusterize.prototype = {
     constructor: Clusterize,
-    // get tag name, tag height, calc cluster height
-    calcClusterHeight: function(rows) {
+    // get tag name, content tag name, tag height, calc cluster height
+    exploreEnvironment: function(rows) {
       var opts = this.options;
+      opts.content_tag = this.contentElem.tagName.toLowerCase();
       if( ! opts.item_height || ! opts.tag) {
         if( ! rows.length) return;
         this.html(rows[0] + rows[0] + rows[0]);
@@ -153,23 +155,29 @@
         return rows;
       }
       if( ! opts.cluster_height) {
-        this.calcClusterHeight(rows);
+        this.exploreEnvironment(rows);
       }
       var items_start = cluster_num * opts.rows_in_cluster - opts.rows_in_block * cluster_num,
         items_start = items_start > 0 ? items_start : 0,
         items_end = items_start + opts.rows_in_cluster,
         top_space = items_start * opts.item_height,
         bottom_space = (rows_len - items_end) * opts.item_height,
-        this_cluster_items = [];
+        this_cluster_rows = [],
+        rows_above = items_start;
       if(top_space > 0) {
-        opts.keep_parity && this_cluster_items.push(this.renderExtraTag('keep-parity'));
-        this_cluster_items.push(this.renderExtraTag('top-space', top_space));
+        opts.keep_parity && this_cluster_rows.push(this.renderExtraTag('keep-parity'));
+        this_cluster_rows.push(this.renderExtraTag('top-space', top_space));
+      } else {
+        rows_above++;
       }
       for (var i = items_start; i < items_end; i++) {
-        rows[i] && this_cluster_items.push(rows[i]);
+        rows[i] && this_cluster_rows.push(rows[i]);
       }
-      bottom_space > 0 && this_cluster_items.push(this.renderExtraTag('bottom-space', bottom_space));
-      return this_cluster_items;
+      bottom_space > 0 && this_cluster_rows.push(this.renderExtraTag('bottom-space', bottom_space));
+      return {
+        rows_above: rows_above,
+        rows: this_cluster_rows
+      }
     },
     renderExtraTag: function(class_name, height) {
       var tag = document.createElement(this.options.tag),
@@ -180,9 +188,11 @@
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
-      var data = this.generate(rows, this.getClusterNum()).join('');
-      if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(data, cache)) {
-        this.html(data);
+      var data = this.generate(rows, this.getClusterNum()),
+        outer_data = data.rows.join('');
+      if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
+        this.html(outer_data);
+        this.options.content_tag == 'ol' && this.contentElem.setAttribute('start', data.rows_above);
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround

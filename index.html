@@ -26,7 +26,7 @@
   <div class="row">
     <div class="large-12 columns" style="margin-top: 1em;">
       <h1>Clusterize.js</h1>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.52KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.6KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -86,18 +86,29 @@
     <div class="large-12 columns">
         <h5>May it be used for anything other than a table? <span class="label success radius">Sure!</span></h5>
         <div class="row">
-          <div class="large-4 small-6 columns">
+          <div class="large-4 medium-6 small-12 columns">
+            <h6>Ordered list</h6>
+            <div class="panel th example-ol">
+              <div id="olExampleScroll" class="clusterize-scroll emulate-progress">
+                <ol id="olExampleContent" class="clusterize-content">
+                  <li class="clusterize-no-data">Loading...</li>
+                </ol>
+              </div>
+              <span id="olExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
+            </div>
+          </div>
+          <div class="large-4 medium-6 small-12 columns">
             <h6>Unordered list</h6>
             <div class="panel th example-ul">
               <div id="ulExampleScroll" class="clusterize-scroll emulate-progress">
-                <ul id="ulExampleContent" class="clusterize-content">
+                <ul id="ulExampleContent" class="clusterize-content" start="25">
                   <li class="clusterize-no-data">Loading...</li>
                 </ul>
               </div>
               <span id="ulExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
             </div>
           </div>
-          <div class="large-4 small-6 columns">
+          <div class="large-4 medium-6 small-12 columns">
             <h6>DIV's</h6>
             <div class="panel th example-div">
               <div id="divExampleScroll" class="clusterize-scroll emulate-progress">
@@ -108,9 +119,9 @@
               <span id="divExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
             </div>
           </div>
-          <div class="large-4 hide-for-medium-only columns">
-            <h6>and so on...</h6>
-            <p>Basically, it may be almost any tag you wish. Exception is ordered list for obvious reasons.</p>
+          <h6 class="visible-for-medium-only">&nbsp;</h6>
+          <div class="large-12 medium-6 columns">
+            <div class="callout panel text-center">And so on... Basically, it may be almost any tag you wish.</div>
           </div>
         </div>
       </div>
@@ -132,6 +143,7 @@
         <dl class="sub-nav" id="usageNav" style="margin-bottom: .5rem">
           <dt>Filter:</dt>
           <dd class="active" data-tab="usageTable"><a href="#">TABLE</a></dd>
+          <dd data-tab="usageOl"><a href="#">OL</a></dd>
           <dd data-tab="usageUl"><a href="#">UL</a></dd>
           <dd data-tab="usageDiv"><a href="#">DIV</a></dd>
         </dl>
@@ -152,6 +164,14 @@
       &lt;/tbody&gt;
     &lt;/table&gt;
   &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageOlHTML" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;ol id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/li&gt;
+  &lt;/ol&gt;
 &lt;/div&gt;
 </code></pre>
             <pre id="usageUlHTML" class="hide"><code class="language-markup">
@@ -175,6 +195,14 @@
             <pre id="usageTableJS"><code class="language-javascript">
 // JavaScript
 var data = ['&lt;tr&gt;…&lt;/tr&gt;', '&lt;tr&gt;…&lt;/tr&gt;', …];
+var clusterize = new Clusterize({
+  rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageOlJS" class="hide"><code class="language-javascript">
+// JavaScript
+var data = ['&lt;li&gt;…&lt;/li&gt;', '&lt;li&gt;…&lt;/li&gt;', …];
 var clusterize = new Clusterize({
   rows: data,
   scrollId: 'scrollArea',
