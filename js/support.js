@@ -22,8 +22,7 @@ setTimeout(function() {
     rows: rows_ul,
     scrollId: 'olExampleScroll',
     contentId: 'olExampleContent',
-    rows_in_block: 20,
-    keep_parity: true
+    rows_in_block: 20
   });
   updateAmount($('#olExampleAmount'), clusterize);
 }, 10);
