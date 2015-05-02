@@ -1,11 +1,25 @@
+
 /*! Clusterize.js - v0.4.0 - 2015-05-02
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
-
 ;(function(name, definition) {
-    if (typeof module != 'undefined') module.exports = definition();
+  if (typeof module != 'undefined') module.exports = definition();
     else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
     else this[name] = definition();
+  // IE 8 - nuff said.
+  Array.prototype.forEach = (Array.prototype.forEach == "function") ? Array.prototype.forEach : function(callback) {
+    var total = this.length,
+        index = 0;
+    for (; index < total; ++index) {
+      callback(this[index]);
+    }
+  };
+  this["addEvent"] = function ( element, evt, fnc ) {
+    return ((element.addEventListener) ? element.addEventListener(evt, fnc, false) : element.attachEvent("on" + evt, fnc));
+  }
+  this["removeEvent"] = function ( element, evt, fnc ) {
+    return ((element.removeEventListener) ? element.removeEventListener(evt, fnc, false) : element.detachEvent("on" + evt, fnc));
+  }
 }('Clusterize', function() {
   "use strict"
 
@@ -25,7 +39,7 @@
     if( ! (this instanceof Clusterize))
       return new Clusterize(data);
     var self = this;
-
+    //TODO:  tag can be auto found using RegExp
     var defaults = {
       item_height: 0,
       block_height: 0,
@@ -45,10 +59,10 @@
     // public parameters
     self.options = {};
     ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag'].forEach(function(name) {
-      self.options[name] = typeof data[name] != 'undefined' && data[name] != null
-        ? data[name]
-        : defaults[name];
-    });
+        self.options[name] = typeof data[name] != 'undefined' && data[name] != null
+          ? data[name]
+          : defaults[name];
+      });
 
     ['scroll', 'content'].forEach(function(name) {
       self[name + 'Elem'] = data[name + 'Id']
@@ -78,11 +92,11 @@
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     }
-    self.scrollElem.addEventListener('scroll', scrollEv);
+    addEvent(self.scrollElem, 'scroll', scrollEv);
 
     // public methods
     self.destroy = function(clean) {
-      self.scrollElem.removeEventListener('scroll', scrollEv);
+      removeEvent(self.scrollElem, 'scroll', scrollEv);
       self.html(clean ? self.generateEmptyRow().join('') : rows.join(''));
     }
     self.update = function(new_rows) {
@@ -188,8 +202,8 @@
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
-      var data = this.generate(rows, this.getClusterNum()),
-        outer_data = data.rows.join('');
+      var data = this.generate(rows, this.getClusterNum());
+      var outer_data = data.rows.join('');
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
         this.html(outer_data);
         this.options.content_tag == 'ol' && this.contentElem.setAttribute('start', data.rows_above);
@@ -204,7 +218,14 @@
         while((last = contentElem.lastChild)) {
           contentElem.removeChild(last)
         }
-        var rows = Array.prototype.slice.call(div.firstChild.firstChild.childNodes);
+        // To help IE 8 slice up childNodes
+        var i = 0,
+            total = div.firstChild.firstChild.childNodes.length,
+            childNodes = [];
+        for (; i < total; ++i) {
+          childNodes[i] = div.firstChild.firstChild.childNodes[i];
+        }
+        var rows = Array.prototype.slice.call(childNodes);
         while (rows.length) {
           contentElem.appendChild(rows.shift());
         }
