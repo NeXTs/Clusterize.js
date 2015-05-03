@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.4.0 - 2015-05-02
+/*! Clusterize.js - v0.4.1 - 2015-05-03
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -149,10 +149,16 @@
       var opts = this.options,
         rows_len = rows.length;
       if( ! rows_len) {
-        return this.generateEmptyRow();
+        return {
+          rows_above: 0,
+          rows: this.generateEmptyRow()
+        }
       }
       if (rows_len < opts.rows_in_block) {
-        return rows;
+        return {
+          rows_above: 0,
+          rows: rows
+        }
       }
       if( ! opts.cluster_height) {
         this.exploreEnvironment(rows);
