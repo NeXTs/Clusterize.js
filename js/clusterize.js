@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.4.0 - 2015-05-02
+/*! Clusterize.js - v0.4.1 - 2015-05-03
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -149,10 +149,10 @@
       var opts = this.options,
         rows_len = rows.length;
       if( ! rows_len) {
-        return this.generateEmptyRow();
+        return {rows: this.generateEmptyRow()};
       }
       if (rows_len < opts.rows_in_block) {
-        return rows;
+        return {rows: rows};
       }
       if( ! opts.cluster_height) {
         this.exploreEnvironment(rows);
@@ -192,7 +192,9 @@
         outer_data = data.rows.join('');
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
         this.html(outer_data);
-        this.options.content_tag == 'ol' && this.contentElem.setAttribute('start', data.rows_above);
+        if(this.options.content_tag == 'ol' && typeof data.rows_above != 'undefined'){
+          this.contentElem.setAttribute('start', data.rows_above);
+        }
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
