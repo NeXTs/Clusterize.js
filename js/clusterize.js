@@ -149,10 +149,16 @@
       var opts = this.options,
         rows_len = rows.length;
       if( ! rows_len) {
-        return {rows: this.generateEmptyRow()};
+        return {
+          rows_above: 0,
+          rows: this.generateEmptyRow()
+        }
       }
       if (rows_len < opts.rows_in_block) {
-        return {rows: rows};
+        return {
+          rows_above: 0,
+          rows: rows
+        }
       }
       if( ! opts.cluster_height) {
         this.exploreEnvironment(rows);
@@ -192,9 +198,7 @@
         outer_data = data.rows.join('');
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
         this.html(outer_data);
-        if(this.options.content_tag == 'ol' && typeof data.rows_above != 'undefined'){
-          this.contentElem.setAttribute('start', data.rows_above);
-        }
+        this.options.content_tag == 'ol' && this.contentElem.setAttribute('start', data.rows_above);
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
