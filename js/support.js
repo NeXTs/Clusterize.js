@@ -58,8 +58,7 @@ function initStepTutorial() {
         rows: rows['5000'],
         scrollId: 'tableExampleScroll',
         contentId: 'tableExampleContent',
-        rows_in_block: 25,
-        tag: 'tr'
+        rows_in_block: 25
       });
       updateAmount($amountTag, tableClusterize);
       steps.initScrollSpy();
@@ -131,8 +130,7 @@ var playground = {
     var opts = {
       rows: rows['10000'],
       scrollId: 'playgroundScroll',
-      contentId: 'playgroundContent',
-      tag: 'tr'
+      contentId: 'playgroundContent'
     };
     if(rows_in_block) {
       opts['rows_in_block'] = rows_in_block;
