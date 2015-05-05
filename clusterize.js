@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.4.2 - 2015-05-03
+/*! Clusterize.js - v0.4.3 - 2015-05-05
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -51,17 +51,17 @@
     });
 
     ['scroll', 'content'].forEach(function(name) {
-      self[name + 'Elem'] = data[name + 'Id']
+      self[name + '_elem'] = data[name + 'Id']
         ? document.getElementById(data[name + 'Id'])
         : data[name + 'Elem'];
-      if( ! self[name + 'Elem'])
+      if( ! self[name + '_elem'])
         throw new Error("Error! Could not find " + name + " element");
     });
 
     // private parameters
     var rows = data.rows || [],
       cache = {data: ''},
-      scrollTop = self.scrollElem.scrollTop;
+      scroll_top = self.scroll_elem.scrollTop;
 
     // get row height
     self.exploreEnvironment(rows);
@@ -70,7 +70,7 @@
     self.insertToDOM(rows, cache);
 
     // restore the scroll position
-    self.scrollElem.scrollTop = scrollTop;
+    self.scroll_elem.scrollTop = scroll_top;
 
     // adding scroll handler
     var last_cluster = false,
@@ -78,20 +78,20 @@
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     }
-    self.scrollElem.addEventListener('scroll', scrollEv);
+    self.scroll_elem.addEventListener('scroll', scrollEv);
 
     // public methods
     self.destroy = function(clean) {
-      self.scrollElem.removeEventListener('scroll', scrollEv);
+      self.scroll_elem.removeEventListener('scroll', scrollEv);
       self.html(clean ? self.generateEmptyRow().join('') : rows.join(''));
     }
     self.update = function(new_rows) {
       rows = self.isArray(new_rows)
         ? new_rows
         : [];
-      var scrollTop = self.scrollElem.scrollTop;
+      var scroll_top = self.scroll_elem.scrollTop;
       self.insertToDOM(rows, cache);
-      self.scrollElem.scrollTop = scrollTop;
+      self.scroll_elem.scrollTop = scroll_top;
     }
     self.append = function(_new_rows) {
       var new_rows = self.isArray(_new_rows)
@@ -113,12 +113,12 @@
     // get tag name, content tag name, tag height, calc cluster height
     exploreEnvironment: function(rows) {
       var opts = this.options;
-      opts.content_tag = this.contentElem.tagName.toLowerCase();
+      opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! opts.item_height || ! opts.tag) {
         if( ! rows.length) return;
         if(ie && ie <= 9) opts.tag = rows[0].split('<')[1].split(' ')[0].split('>')[0];
         this.html(rows[0] + rows[0] + rows[0]);
-        var node = this.contentElem.children[1];
+        var node = this.content_elem.children[1];
         if( ! opts.tag) opts.tag = node.tagName.toLowerCase();
         opts.item_height = node.offsetHeight;
       }
@@ -129,17 +129,17 @@
     // get current cluster number
     getClusterNum: function () {
       var opts = this.options;
-      return Math.floor(this.scrollElem.scrollTop / (opts.cluster_height - opts.block_height));
+      return Math.floor(this.scroll_elem.scrollTop / (opts.cluster_height - opts.block_height));
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
       var opts = this.options;
       if( ! opts.tag || ! opts.show_no_data_row) return [];
       var empty_row = document.createElement(opts.tag),
-        no_data_content = document.createTextNode(opts.no_data_text);
+        no_data_content = document.createTextNode(opts.no_data_text), td;
       empty_row.className = opts.no_data_class;
       if(opts.tag == 'tr') {
-        var td = document.createElement('td');
+        td = document.createElement('td');
         td.appendChild(no_data_content);
       }
       empty_row.appendChild(td || no_data_content);
@@ -193,24 +193,24 @@
         outer_data = data.rows.join('');
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
         this.html(outer_data);
-        this.options.content_tag == 'ol' && this.contentElem.setAttribute('start', data.rows_above);
+        this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
     html: function(data) {
-      var contentElem = this.contentElem;
+      var content_elem = this.content_elem;
       if(ie && ie <= 9 && this.options.tag == 'tr') {
         var div = document.createElement('div'), last;
         div.innerHTML = '<table><tbody>' + data + '</tbody></table>'
-        while((last = contentElem.lastChild)) {
-          contentElem.removeChild(last)
+        while((last = content_elem.lastChild)) {
+          content_elem.removeChild(last)
         }
         var rows = Array.prototype.slice.call(div.firstChild.firstChild.childNodes);
         while (rows.length) {
-          contentElem.appendChild(rows.shift());
+          content_elem.appendChild(rows.shift());
         }
       } else {
-        contentElem.innerHTML = data;
+        content_elem.innerHTML = data;
       }
     },
     dataChanged: function(data, cache) {
