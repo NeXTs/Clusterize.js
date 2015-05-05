@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.4.3 - 2015-05-05
+/*! Clusterize.js - v0.5.0 - 2015-05-05
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -44,19 +44,21 @@
 
     // public parameters
     self.options = {};
-    ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag'].forEach(function(name) {
-      self.options[name] = typeof data[name] != 'undefined' && data[name] != null
-        ? data[name]
-        : defaults[name];
-    });
+    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag'];
+    for(var i = 0, option; option = options[i]; i++) {
+      self.options[option] = typeof data[option] != 'undefined' && data[option] != null
+        ? data[option]
+        : defaults[option];
+    }
 
-    ['scroll', 'content'].forEach(function(name) {
-      self[name + '_elem'] = data[name + 'Id']
-        ? document.getElementById(data[name + 'Id'])
-        : data[name + 'Elem'];
-      if( ! self[name + '_elem'])
-        throw new Error("Error! Could not find " + name + " element");
-    });
+    var elems = ['scroll', 'content'];
+    for(var i = 0, elem; elem = elems[i]; i++) {
+      self[elem + '_elem'] = data[elem + 'Id']
+        ? document.getElementById(data[elem + 'Id'])
+        : data[elem + 'Elem'];
+      if( ! self[elem + '_elem'])
+        throw new Error("Error! Could not find " + elem + " element");
+    }
 
     // private parameters
     var rows = data.rows || [],
@@ -78,15 +80,15 @@
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     }
-    self.scroll_elem.addEventListener('scroll', scrollEv);
+    on('scroll', self.scroll_elem, scrollEv);
 
     // public methods
     self.destroy = function(clean) {
-      self.scroll_elem.removeEventListener('scroll', scrollEv);
+      off('scroll', self.scroll_elem, scrollEv);
       self.html(clean ? self.generateEmptyRow().join('') : rows.join(''));
     }
     self.update = function(new_rows) {
-      rows = self.isArray(new_rows)
+      rows = isArray(new_rows)
         ? new_rows
         : [];
       var scroll_top = self.scroll_elem.scrollTop;
@@ -94,7 +96,7 @@
       self.scroll_elem.scrollTop = scroll_top;
     }
     self.append = function(_new_rows) {
-      var new_rows = self.isArray(_new_rows)
+      var new_rows = isArray(_new_rows)
         ? _new_rows
         : [];
       if( ! new_rows.length) return;
@@ -205,7 +207,12 @@
         while((last = content_elem.lastChild)) {
           content_elem.removeChild(last)
         }
-        var rows = Array.prototype.slice.call(div.firstChild.firstChild.childNodes);
+        var child_nodes = div.firstChild.firstChild.childNodes,
+          ie8_child_nodes_helper = [];
+        for (var i = 0, ii = child_nodes.length; i < ii; i++) {
+          ie8_child_nodes_helper.push(child_nodes[i]);
+        }
+        var rows = Array.prototype.slice.call(ie8_child_nodes_helper);
         while (rows.length) {
           content_elem.appendChild(rows.shift());
         }
@@ -217,10 +224,19 @@
       var current_data = JSON.stringify(data),
         changed = current_data !== cache.data;
       return changed && (cache.data = current_data);
-    },
-    isArray: function(arr) {
-      return Object.prototype.toString.call(arr) === '[object Array]';
     }
   }
+
+  // support functions
+  function on(evt, element, fnc) {
+    return element.addEventListener ? element.addEventListener(evt, fnc, false) : element.attachEvent("on" + evt, fnc);
+  }
+  function off(evt, element, fnc) {
+    return element.removeEventListener ? element.removeEventListener(evt, fnc, false) : element.detachEvent("on" + evt, fnc);
+  }
+  function isArray(arr) {
+    return Object.prototype.toString.call(arr) === '[object Array]';
+  }
+
   return Clusterize;
 }));
