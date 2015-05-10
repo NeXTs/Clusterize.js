@@ -1,6 +1,6 @@
 {
   "name": "clusterize",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Tiny vanilla JS plugin to display large data sets easily",
   "main": "clusterize.js",
   "ignore": [],

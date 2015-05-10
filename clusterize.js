@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.5.0 - 2015-05-05
+/*! Clusterize.js - v0.6.0 - 2015-05-10
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -61,7 +61,9 @@
     }
 
     // private parameters
-    var rows = data.rows || [],
+    var rows = isArray(data.rows)
+        ? data.rows
+        : self.fetchMarkup(),
       cache = {data: ''},
       scroll_top = self.scroll_elem.scrollTop;
 
@@ -85,7 +87,7 @@
     // public methods
     self.destroy = function(clean) {
       off('scroll', self.scroll_elem, scrollEv);
-      self.html(clean ? self.generateEmptyRow().join('') : rows.join(''));
+      self.html((clean ? self.generateEmptyRow() : rows).join(''));
     }
     self.update = function(new_rows) {
       rows = isArray(new_rows)
@@ -112,6 +114,14 @@
   }
   Clusterize.prototype = {
     constructor: Clusterize,
+    // fetch existing markup
+    fetchMarkup: function() {
+      var rows = [], rows_nodes = this.getChildNodes(this.content_elem);
+      while (rows_nodes.length) {
+        rows.push(rows_nodes.shift().outerHTML);
+      }
+      return rows;
+    },
     // get tag name, content tag name, tag height, calc cluster height
     exploreEnvironment: function(rows) {
       var opts = this.options;
@@ -207,18 +217,21 @@
         while((last = content_elem.lastChild)) {
           content_elem.removeChild(last)
         }
-        var child_nodes = div.firstChild.firstChild.childNodes,
-          ie8_child_nodes_helper = [];
-        for (var i = 0, ii = child_nodes.length; i < ii; i++) {
-          ie8_child_nodes_helper.push(child_nodes[i]);
-        }
-        var rows = Array.prototype.slice.call(ie8_child_nodes_helper);
-        while (rows.length) {
-          content_elem.appendChild(rows.shift());
+        var rows_nodes = this.getChildNodes(div.firstChild.firstChild);
+        while (rows_nodes.length) {
+          content_elem.appendChild(rows_nodes.shift());
         }
       } else {
         content_elem.innerHTML = data;
       }
+    },
+    getChildNodes: function(tag) {
+      var child_nodes = tag.children,
+          ie8_child_nodes_helper = [];
+        for (var i = 0, ii = child_nodes.length; i < ii; i++) {
+          ie8_child_nodes_helper.push(child_nodes[i]);
+        }
+        return Array.prototype.slice.call(ie8_child_nodes_helper);
     },
     dataChanged: function(data, cache) {
       var current_data = JSON.stringify(data),
