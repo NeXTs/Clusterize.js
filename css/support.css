@@ -81,3 +81,8 @@
 .rows-amount-helper.closer{
   top: 25px;
 }
+
+.sub-nav{
+  background-color: #f2f2f2;
+  padding: 10px 10px 10px 0;
+}

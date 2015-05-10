@@ -36,7 +36,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.71KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.77KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -101,7 +101,7 @@
             <div class="panel th example-ol">
               <div id="olExampleScroll" class="clusterize-scroll emulate-progress">
                 <ol id="olExampleContent" class="clusterize-content">
-                  <li class="clusterize-no-data">Loading...</li>
+                  <li class="clusterize-no-data">Loading…</li>
                 </ol>
               </div>
               <span id="olExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
@@ -112,7 +112,7 @@
             <div class="panel th example-ul">
               <div id="ulExampleScroll" class="clusterize-scroll emulate-progress">
                 <ul id="ulExampleContent" class="clusterize-content" start="25">
-                  <li class="clusterize-no-data">Loading...</li>
+                  <li class="clusterize-no-data">Loading…</li>
                 </ul>
               </div>
               <span id="ulExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
@@ -123,7 +123,7 @@
             <div class="panel th example-div">
               <div id="divExampleScroll" class="clusterize-scroll emulate-progress">
                 <div id="divExampleContent" class="clusterize-content">
-                  <div class="clusterize-no-data">Loading...</div>
+                  <div class="clusterize-no-data">Loading…</div>
                 </div>
               </div>
               <span id="divExampleAmount" class="label alert radius rows-amount-helper closer">Rows: 0</span>
@@ -131,7 +131,7 @@
           </div>
           <h6 class="visible-for-medium-only">&nbsp;</h6>
           <div class="large-12 medium-6 columns">
-            <div class="callout panel text-center">And so on... Basically, it may be almost any tag you wish.</div>
+            <div class="callout panel text-center">And so on… Basically, it may be almost any tag you wish.</div>
           </div>
         </div>
       </div>
@@ -150,16 +150,27 @@
 &#x3C;script&#x20;src&#x3D;&#x22;bower/clusterize/clusterize.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
 </code></pre>
         <h5>Usage</h5>
-        <dl class="sub-nav" id="usageNav" style="margin-bottom: .5rem">
-          <dt>Filter:</dt>
-          <dd class="active" data-tab="usageTable"><a href="#">TABLE</a></dd>
-          <dd data-tab="usageOl"><a href="#">OL</a></dd>
-          <dd data-tab="usageUl"><a href="#">UL</a></dd>
-          <dd data-tab="usageDiv"><a href="#">DIV</a></dd>
-        </dl>
+        <div class="row">
+          <div class="large-6 columns">
+            <dl class="sub-nav" id="usageNav" style="margin-bottom: .5rem">
+              <dt>Container:</dt>
+              <dd class="active" data-tab="usageTable"><a href="#">TABLE</a></dd>
+              <dd data-tab="usageOl"><a href="#">OL</a></dd>
+              <dd data-tab="usageUl"><a href="#">UL</a></dd>
+              <dd data-tab="usageDiv"><a href="#">DIV</a></dd>
+            </dl>
+          </div>
+          <div class="large-6 columns">
+            <dl class="sub-nav" id="usageNav2" style="margin-bottom: .5rem">
+              <dt>Data:</dt>
+              <dd class="active" data-tab="Render"><a href="#">Render rows</a></dd>
+              <dd data-tab="Markup"><a href="#">Use existing markup</a></dd>
+            </dl>
+          </div>
+        </div>
         <div class="row">
           <div class="large-7 medium-7 columns">
-            <pre id="usageTableHTML"><code class="language-markup">
+            <pre id="usageTableHTMLRender"><code class="language-markup">
 &lt;!--HTML--&gt;
 &lt;div class=&quot;clusterize&quot;&gt;
   &lt;table&gt;
@@ -169,40 +180,87 @@
     &lt;table&gt;
       &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
         &lt;tr class=&quot;clusterize-no-data&quot;&gt;
-          &lt;td&gt;Loading data...&lt;/td&gt;
+          &lt;td&gt;Loading data…&lt;/td&gt;
         &lt;/tr&gt;
       &lt;/tbody&gt;
     &lt;/table&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
-            <pre id="usageOlHTML" class="hide"><code class="language-markup">
+<pre id="usageTableHTMLMarkup" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div class=&quot;clusterize&quot;&gt;
+  &lt;table&gt;
+    &lt;thead&gt;&lt;/thead&gt;
+  &lt;/table&gt;
+  &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+    &lt;table&gt;
+      &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+        &lt;tr&gt;&lt;td&gt;First row&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;Second row&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;…&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageOlHTMLRender" class="hide"><code class="language-markup">
 &lt;!--HTML--&gt;
 &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
   &lt;ol id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
-    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/li&gt;
+    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data…&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </code></pre>
-            <pre id="usageUlHTML" class="hide"><code class="language-markup">
+            <pre id="usageOlHTMLMarkup" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;ol id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;li&gt;First row&lt;/li&gt;
+    &lt;li&gt;Second row&lt;/li&gt;
+    &lt;li&gt;…&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageUlHTMLRender" class="hide"><code class="language-markup">
 &lt;!--HTML--&gt;
 &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
   &lt;ul id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
-    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/li&gt;
+    &lt;li class=&quot;clusterize-no-data&quot;&gt;Loading data…&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;
 </code></pre>
-            <pre id="usageDivHTML" class="hide"><code class="language-markup">
+            <pre id="usageUlHTMLMarkup" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;ul id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;li&gt;First row&lt;/li&gt;
+    &lt;li&gt;Second row&lt;/li&gt;
+    &lt;li&gt;…&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageDivHTMLRender" class="hide"><code class="language-markup">
 &lt;!--HTML--&gt;
 &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
   &lt;div id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
-    &lt;div class=&quot;clusterize-no-data&quot;&gt;Loading data...&lt;/div&gt;
+    &lt;div class=&quot;clusterize-no-data&quot;&gt;Loading data…&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+            <pre id="usageDivHTMLMarkup" class="hide"><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+  &lt;div id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+    &lt;div&gt;First row&lt;/div&gt;
+    &lt;div&gt;Second row&lt;/div&gt;
+    &lt;div&gt;…&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
           </div>
           <div class="large-5 medium-5 columns">
-            <pre id="usageTableJS"><code class="language-javascript">
+            <pre id="usageTableJSRender"><code class="language-javascript">
 // JavaScript
 var data = ['&lt;tr&gt;…&lt;/tr&gt;', '&lt;tr&gt;…&lt;/tr&gt;', …];
 var clusterize = new Clusterize({
@@ -210,7 +268,13 @@ var clusterize = new Clusterize({
   scrollId: 'scrollArea',
   contentId: 'contentArea'
 });</code></pre>
-            <pre id="usageOlJS" class="hide"><code class="language-javascript">
+            <pre id="usageTableJSMarkup" class="hide"><code class="language-javascript">
+// JavaScript
+var clusterize = new Clusterize({
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageOlJSRender" class="hide"><code class="language-javascript">
 // JavaScript
 var data = ['&lt;li&gt;…&lt;/li&gt;', '&lt;li&gt;…&lt;/li&gt;', …];
 var clusterize = new Clusterize({
@@ -218,7 +282,13 @@ var clusterize = new Clusterize({
   scrollId: 'scrollArea',
   contentId: 'contentArea'
 });</code></pre>
-            <pre id="usageUlJS" class="hide"><code class="language-javascript">
+            <pre id="usageOlJSMarkup" class="hide"><code class="language-javascript">
+// JavaScript
+var clusterize = new Clusterize({
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageUlJSRender" class="hide"><code class="language-javascript">
 // JavaScript
 var data = ['&lt;li&gt;…&lt;/li&gt;', '&lt;li&gt;…&lt;/li&gt;', …];
 var clusterize = new Clusterize({
@@ -226,11 +296,23 @@ var clusterize = new Clusterize({
   scrollId: 'scrollArea',
   contentId: 'contentArea'
 });</code></pre>
-            <pre id="usageDivJS" class="hide"><code class="language-javascript">
+            <pre id="usageUlJSMarkup" class="hide"><code class="language-javascript">
+// JavaScript
+var clusterize = new Clusterize({
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageDivJSRender" class="hide"><code class="language-javascript">
 // JavaScript
 var data = ['&lt;div&gt;…&lt;/div&gt;', '&lt;div&gt;…&lt;/div&gt;', …];
 var clusterize = new Clusterize({
   rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});</code></pre>
+            <pre id="usageDivJSMarkup" class="hide"><code class="language-javascript">
+// JavaScript
+var clusterize = new Clusterize({
   scrollId: 'scrollArea',
   contentId: 'contentArea'
 });</code></pre>
@@ -252,8 +334,12 @@ var clusterize = new Clusterize({
           <tbody>
             <tr>
               <td>data</td>
-              <td><b>Required</b></td>
-              <td>Array of tags in String. <b>Example:</b> ['&lt;tr&gt;&lt;td&gt;First&lt;/td&gt;&lt;/tr&gt;', '&lt;tr&gt;&lt;td&gt;Second&lt;/td&gt;&lt;/tr&gt;'];</td>
+              <td><b style="white-space: nowrap">It depends</b></td>
+              <td>
+                <div>If you render rows by yourself - pass array of tags in String. This way is preferable.</div>
+                <div><b>Example:</b> ['&lt;tr&gt;&lt;td&gt;First&lt;/td&gt;&lt;/tr&gt;', '&lt;tr&gt;&lt;td&gt;Second&lt;/td&gt;&lt;/tr&gt;'];</div>
+                <div><span class="info label">New</span> If you need to use existing markup - <b>do not specify</b> this option at all.</div>
+              </td>
             </tr>
             <tr>
               <td>scrollId or scrollElem</td>
@@ -274,7 +360,7 @@ var clusterize = new Clusterize({
             <tr>
               <td>rows_in_block</td>
               <td>Optional</td>
-              <td>Amount of rows in block. Increase means browser will be more loaded, decrease means browser will have to update clusters more often. <a href="#playground">This example</a> would help to understand this property easier. Good practice will be to keep rows_in_block as amount of visible rows in your list.  <b>Default: 50</b></td>
+              <td>Amount of rows in block. Increase means browser will be more loaded, decrease means browser will have to update clusters more often. <a href="#playground">This example</a> would help to understand this property easier. Good practice will be to keep rows_in_block as amount of visible rows in your list. Must be even to keep parity. <b>Default: 50</b></td>
             </tr>
             <tr>
               <td>blocks_in_cluster</td>
@@ -358,7 +444,7 @@ var clusterize = new Clusterize({
               <label for="">Change <b>rows_in_block</b> option</label>
               <div class="row">
                 <div class="small-10 medium-10 columns">
-                  <div class="range-slider radius freeze-if-disabled" data-slider data-options="step: 5; start: 5; end: 500; display_selector: #playgroundRange;  initial: 25;">
+                  <div class="range-slider radius freeze-if-disabled" data-slider data-options="step: 2; start: 4; end: 500; display_selector: #playgroundRange;  initial: 24;">
                     <span class="range-slider-handle" role="slider"></span>
                     <span class="range-slider-active-segment"></span>
                     <input type="hidden">
@@ -394,7 +480,7 @@ var clusterize = new Clusterize({
                   <table>
                     <tbody id="playgroundContent" class="clusterize-content">
                       <tr class="clusterize-no-data">
-                        <td>Loading...</td>
+                        <td>Loading…</td>
                       </tr>
                     </tbody>
                   </table>
@@ -434,6 +520,7 @@ var clusterize = new Clusterize({
     <div class="large-5 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.6.0</b> Added ability to use existing markup</li>
         <li><b>0.5.0</b> Added ie8 support</li>
         <li><b>0.4.0</b> Implemented OL list support</li>
         <li><b>0.3.0</b> Switch to DOM methods to avoid XSS attack</li>

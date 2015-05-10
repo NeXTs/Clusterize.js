@@ -58,7 +58,7 @@ function initStepTutorial() {
         rows: rows['5000'],
         scrollId: 'tableExampleScroll',
         contentId: 'tableExampleContent',
-        rows_in_block: 25
+        rows_in_block: 26
       });
       updateAmount($amountTag, tableClusterize);
       steps.initScrollSpy();
@@ -185,7 +185,7 @@ var playground = {
   },
   initButtons: function() {
     var slider_timeout;
-    var prev_value = 25;
+    var prev_value = 24;
     $('.range-slider').on('change.fndtn.slider', function(){
       var value = parseFloat($(this).attr('data-slider'));
       if(value == prev_value) return;
@@ -213,12 +213,14 @@ var playground = {
 setTimeout(playground.init, 10);
 
 function initUsageNav() {
-  $('#usageNav').on('click', 'dd', function(e) {
+  $('#usageNav, #usageNav2').on('click', 'dd', function(e) {
     e.preventDefault();
     var $this = $(this);
     $this.addClass('active').siblings('.active').removeClass('active');
-    $('#'+$this.data('tab')+'HTML').show().siblings().hide();
-    $('#'+$this.data('tab')+'JS').show().siblings().hide();
+    var container = $('#usageNav .active').data('tab'),
+      data_provider = $('#usageNav2 .active').data('tab');
+    $('#'+container+'HTML'+data_provider).show().siblings().hide();
+    $('#'+container+'JS'+data_provider).show().siblings().hide();
   });
 }
 
