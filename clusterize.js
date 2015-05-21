@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.6.0 - 2015-05-10
+/*! Clusterize.js - v0.7.0 - 2015-05-21
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -97,21 +97,30 @@
       self.insertToDOM(rows, cache);
       self.scroll_elem.scrollTop = scroll_top;
     }
-    self.append = function(_new_rows) {
-      var new_rows = isArray(_new_rows)
-        ? _new_rows
-        : [];
-      if( ! new_rows.length) return;
-      rows = rows.concat(new_rows);
-      self.insertToDOM(rows, cache);
-    }
     self.clear = function() {
       self.update([]);
     }
     self.getRowsAmount = function() {
       return rows.length;
     }
+    var add = function(where, _new_rows) {
+      var new_rows = isArray(_new_rows)
+        ? _new_rows
+        : [];
+      if( ! new_rows.length) return;
+      rows = where == 'append'
+        ? rows.concat(new_rows)
+        : new_rows.concat(rows);
+      self.insertToDOM(rows, cache);
+    }
+    self.append = function(rows) {
+      add('append', rows);
+    }
+    self.prepend = function(rows) {
+      add('prepend', rows);
+    }
   }
+
   Clusterize.prototype = {
     constructor: Clusterize,
     // fetch existing markup
