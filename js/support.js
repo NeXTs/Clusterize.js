@@ -153,6 +153,12 @@ var playground = {
     playground.clusterize.append(rows['5000']);
     updateAmount(playground.$amountTag, playground.clusterize);
   },
+  prepend: function(e) {
+    e.preventDefault();
+    if($(this).is(':disabled')) return;
+    playground.clusterize.prepend(rows['5000']);
+    updateAmount(playground.$amountTag, playground.clusterize);
+  },
   update: function(e) {
     e.preventDefault();
     if($(this).is(':disabled')) return;
@@ -197,6 +203,7 @@ var playground = {
       }, 500);
     });
     $('#playgroundAppend').click(playground.append);
+    $('#playgroundPrepend').click(playground.prepend);
     $('#playgroundUpdate').click(playground.update);
     $('#playgroundClear').click(playground.clear);
     $('#playgroundDestroyTrue').click(playground.destroyTrue);

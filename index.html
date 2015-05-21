@@ -36,7 +36,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.77KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.81KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -418,6 +418,11 @@ var clusterize = new Clusterize({
               <td>Appends new data to the list</td>
             </tr>
             <tr>
+              <td>.prepend()</td>
+              <td><b>Array</b></td>
+              <td>Prepends new data to the list</td>
+            </tr>
+            <tr>
               <td>.getRowsAmount()</td>
               <td></td>
               <td>Returns total amount of rows</td>
@@ -459,6 +464,7 @@ var clusterize = new Clusterize({
               </div>
               <label for="">Methods</label>
               <button id="playgroundAppend" class="tiny radius button freeze-if-disabled">Append 5.000 rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.append(data);">&lt;/&gt;</span>
+              <button id="playgroundPrepend" class="tiny radius button freeze-if-disabled">Prepend 5.000 rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.prepend(data);">&lt;/&gt;</span>
               <button id="playgroundUpdate" class="tiny radius button freeze-if-disabled">Update to initial 10.000 rows</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.update(data);">&lt;/&gt;</span>
               <button id="playgroundGetRowsAmount" class="tiny radius button freeze-if-disabled">Get rows amount</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.getRowsAmount();">&lt;/&gt;</span>
               <button id="playgroundClear" class="tiny radius button freeze-if-disabled">Clear table</button><span class="info radius label has-tip playground-helper" data-tooltip aria-haspopup="true" title="clusterize.clear();">&lt;/&gt;</span>
@@ -523,6 +529,7 @@ var clusterize = new Clusterize({
     <div class="large-5 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.7.0</b> Added .prepend method</li>
         <li><b>0.6.0</b> Added ability to use existing markup</li>
         <li><b>0.5.0</b> Added ie8 support</li>
         <li><b>0.4.0</b> Implemented OL list support</li>
