@@ -139,14 +139,15 @@
     <div class="row">
       <div class="large-12 columns">
         <h5>Quickstart</h5>
-        <div class="row">
-          <div class="large-6 small-6 columns">
+        <div class="row text-center">
+          <div class="large-4 small-4 columns">
             <pre><code class="language-javascript">bower install clusterize</code></pre>
           </div>
-          <div class="large-6 columns small-6" style="padding: 1em;margin: .5em 0;">or <a href="https://github.com/NeXTs/Clusterize.js" target="_blank">download from GitHub</a></div>
+          <div class="large-4 columns small-4" style="padding: 1em;margin: .5em 0;">or <a href="https://github.com/NeXTs/Clusterize.js" target="_blank">download from GitHub</a></div>
+          <div class="large-4 columns small-4" style="padding: 1em;margin: .5em 0;">or <a href="http://osscdn.com/#/clusterize.js" target="_blank">use MaxCDN</a> <span class="label success radius" style="top: -14px;">New!</span></div>
         </div>
         <h5>Include it on your page</h5>
-        <pre><code class="language-markup">&#x3C;link&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x20;href&#x3D;&#x22;bower/clusterize/clusterize.css&#x22;&#x3E;
+        <pre><code class="language-markup">&#x3C;link&#x20;href&#x3D;&#x22;bower/clusterize/clusterize.css&#x22;&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x3E;
 &#x3C;script&#x20;src&#x3D;&#x22;bower/clusterize/clusterize.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
 </code></pre>
         <a name="usage"></a>
@@ -340,7 +341,7 @@ var clusterize = new Clusterize({
               <td>
                 <div>If you render rows by yourself - pass array of tags in String. This way is preferable.</div>
                 <div><b>Example:</b> ['&lt;tr&gt;&lt;td&gt;First&lt;/td&gt;&lt;/tr&gt;', '&lt;tr&gt;&lt;td&gt;Second&lt;/td&gt;&lt;/tr&gt;'];</div>
-                <div><span class="info label">New</span> If you need to use existing markup - <b>do not specify</b> this option at all.</div>
+                <div>If you need to use existing markup - <b>do not specify</b> this option at all.</div>
               </td>
             </tr>
             <tr>
