@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.7.0 - 2015-05-21
+/*! Clusterize.js - v0.7.1 - 2015-06-04
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -60,6 +60,10 @@
         throw new Error("Error! Could not find " + elem + " element");
     }
 
+    // tabindex forces the browser to keep focus on the scrolling list, fixes #11
+    if( ! self.content_elem.hasAttribute('tabindex'))
+      self.content_elem.setAttribute('tabindex', 0);
+
     // private parameters
     var rows = isArray(data.rows)
         ? data.rows
@@ -78,7 +82,7 @@
 
     // adding scroll handler
     var last_cluster = false,
-    scrollEv = function () {
+    scrollEv = function (e) {
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     }

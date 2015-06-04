@@ -86,3 +86,12 @@
   background-color: #f2f2f2;
   padding: 10px 10px 10px 0;
 }
+
+.issue-num{
+  font-size: 70%;
+}
+
+.issue-num a{
+  margin-left: 1px;
+  margin-right: 1px;
+}
