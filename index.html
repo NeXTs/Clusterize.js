@@ -36,7 +36,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.84KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="1.94KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -144,7 +144,7 @@
             <pre><code class="language-javascript">bower install clusterize</code></pre>
           </div>
           <div class="large-4 columns small-4" style="padding: 1em;margin: .5em 0;">or <a href="https://github.com/NeXTs/Clusterize.js" target="_blank">download from GitHub</a></div>
-          <div class="large-4 columns small-4" style="padding: 1em;margin: .5em 0;">or <a href="http://osscdn.com/#/clusterize.js" target="_blank">use MaxCDN</a> <span class="label success radius" style="top: -14px;">New!</span></div>
+          <div class="large-4 columns small-4" style="padding: 1em;margin: .5em 0;">or <a href="http://osscdn.com/#/clusterize.js" target="_blank">use MaxCDN</a></div>
         </div>
         <h5>Include it on your page</h5>
         <pre><code class="language-markup">&#x3C;link&#x20;href&#x3D;&#x22;bower/clusterize/clusterize.css&#x22;&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x3E;
@@ -424,6 +424,11 @@ var clusterize = new Clusterize({
               <td>Prepends new data to the list</td>
             </tr>
             <tr>
+              <td>.refresh() <span class="label success radius" style="top: -14px;">New!</span></td>
+              <td></td>
+              <td>Refreshes row height. Clusterize must always know current row height. It watches for window resize by itself but the width of the container may be changed programmatically, for example by dynamic neighboring elements, which could lead to a change in the height of rows. In such cases, you must call .refresh () to force Clusterize get new row height.</td>
+            </tr>
+            <tr>
               <td>.getRowsAmount()</td>
               <td></td>
               <td>Returns total amount of rows</td>
@@ -530,6 +535,7 @@ var clusterize = new Clusterize({
     <div class="large-5 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.8.0</b> Refreshing row height after window resize <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/29" target="_blank">#29</a>]</sup></li>
         <li><b>0.7.1</b> Keep focus on the scrolling list <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/11" target="_blank">#11</a>]</sup></li>
         <li><b>0.7.0</b> Added .prepend method</li>
         <li><b>0.6.0</b> Added ability to use existing markup</li>

@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.7.1 - 2015-06-04
+/*! Clusterize.js - v0.8.0 - 2015-07-01
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -82,16 +82,26 @@
 
     // adding scroll handler
     var last_cluster = false,
-    scrollEv = function (e) {
+    scrollEv = function(e) {
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
+    },
+    resize_debounce = 0,
+    resizeEv = function(e) {
+      clearTimeout(resize_debounce);
+      resize_debounce = setTimeout(self.refresh, 100);
     }
     on('scroll', self.scroll_elem, scrollEv);
+    on('resize', window, resizeEv);
 
     // public methods
     self.destroy = function(clean) {
       off('scroll', self.scroll_elem, scrollEv);
+      off('resize', window, resizeEv);
       self.html((clean ? self.generateEmptyRow() : rows).join(''));
+    }
+    self.refresh = function() {
+      self.getRowsHeight(rows) && self.update(rows);
     }
     self.update = function(new_rows) {
       rows = isArray(new_rows)
@@ -139,17 +149,26 @@
     exploreEnvironment: function(rows) {
       var opts = this.options;
       opts.content_tag = this.content_elem.tagName.toLowerCase();
-      if( ! opts.item_height || ! opts.tag) {
-        if( ! rows.length) return;
-        if(ie && ie <= 9) opts.tag = rows[0].split('<')[1].split(' ')[0].split('>')[0];
+      if( ! rows.length) return;
+      if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].split('<')[1].split(' ')[0].split('>')[0].toLowerCase();
+      if(this.content_elem.children.length <= 1) {
         this.html(rows[0] + rows[0] + rows[0]);
         var node = this.content_elem.children[1];
         if( ! opts.tag) opts.tag = node.tagName.toLowerCase();
-        opts.item_height = node.offsetHeight;
       }
+      this.getRowsHeight(rows);
+    },
+    getRowsHeight: function(rows) {
+      var opts = this.options,
+        prev_item_height = opts.item_height;
+      opts.cluster_height = 0
+      if( ! rows.length) return;
+      var nodes = this.content_elem.children;
+      opts.item_height = nodes[Math.ceil(nodes.length / 2)].offsetHeight;
       opts.block_height = opts.item_height * opts.rows_in_block;
       opts.rows_in_cluster = opts.blocks_in_cluster * opts.rows_in_block;
       opts.cluster_height = opts.blocks_in_cluster * opts.block_height;
+      return prev_item_height != opts.item_height;
     },
     // get current cluster number
     getClusterNum: function () {
