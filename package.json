@@ -1,8 +1,9 @@
 {
   "name": "clusterize.js",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Tiny vanilla JS plugin to display large data sets easily",
   "main": "clusterize.js",
+  "style": "clusterize.css",
   "scripts": {
   },
   "repository": {
@@ -10,11 +11,15 @@
     "url": "git@github.com:NeXTs/Clusterize.js.git"
   },
   "keywords": [
+    "large",
     "vanillajs",
     "table",
-    "grid"
+    "grid",
+    "list",
+    "scroll",
+    "cluster"
   ],
-  "author": "Denis Lukov (NeXTs)",
+  "author": "Denis Lukov",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/NeXTs/Clusterize.js/issues"
