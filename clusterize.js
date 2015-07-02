@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.8.0 - 2015-07-01
+/*! Clusterize.js - v0.8.1 - 2015-07-01
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
