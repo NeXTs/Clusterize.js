@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.8.0 - 2015-07-01
+/*! Clusterize.js - v0.8.2 - 2015-07-03
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -151,7 +151,7 @@
       opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! rows.length) return;
       if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].split('<')[1].split(' ')[0].split('>')[0].toLowerCase();
-      if(this.content_elem.children.length <= 1) {
+      if(this.content_elem.children.length <= 1 || ! opts.tag) {
         this.html(rows[0] + rows[0] + rows[0]);
         var node = this.content_elem.children[1];
         if( ! opts.tag) opts.tag = node.tagName.toLowerCase();
