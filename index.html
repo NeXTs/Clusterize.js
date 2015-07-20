@@ -511,6 +511,78 @@ var clusterize = new Clusterize({
         </div>
     </div>
     <div class="row" style="margin-bottom: 1.25rem;">
+    <div class="large-12 columns">
+      <a name="faq"></a>
+      <h5>FAQ</h5>
+      <ul class="accordion" data-accordion>
+        <li class="accordion-navigation">
+          <a href="#panel1a">Does rows should be the same height?</a>
+          <div id="panel1a" class="content">
+            This is not critical, but it's highly recommended that the rows were the same height because row height is determined during initialization picking some of first rows and then used for all calculations.
+          </div>
+        </li>
+        <li class="accordion-navigation">
+          <a href="#panel2a">How to scroll programmatically?</a>
+          <div id="panel2a" class="content">
+            Use native <b>.scrollTop</b>
+            <pre><code class="language-javascript">
+var clusterize = new Clusterize({
+  rows: rows,
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
+
+document.getElementById('scrollElemId').scrollTop = 500;
+</code></pre>
+          </div>
+        </li>
+        <li class="accordion-navigation">
+          <a href="#panel3a">How to attach event listener to rows?</a>
+          <div id="panel3a" class="content">
+            Use <b>event delegation</b>
+            <sup class="issue-num">
+              [<a href="http://javascript.info/tutorial/event-delegation" target="_blank" rel="nofollow"><b>1</b></a>,
+              <a href="http://davidwalsh.name/event-delegate" target="_blank" rel="nofollow"><b>2</b></a>]
+            </sup>
+            <div class="row">
+              <div class="large-6 columns">
+                <pre><code class="language-javascript">
+// JavaScript
+var clusterize = new Clusterize({
+  rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
+
+document.getElementById('contentElemId').onclick = function(e) {
+  e = e || event;
+  var target = e.target || e.srcElement;
+  if(target.nodeName != 'TR') return;
+  // do stuff with row
+}
+</code></pre>
+              </div>
+              <div class="large-6 columns">
+                <pre><code class="language-javascript">
+// jQuery
+var clusterize = new Clusterize({
+  rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
+
+$('#contentElemId').on('click', 'tr', function() {
+  // do stuff with row
+});
+</code></pre>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <div class="row" style="margin-bottom: 1.25rem;">
       <div class="large-12 columns">
         <h5>Rendered structure and classses (in case you decided to use tables)</h5>
         <pre><code class="language-markup">
@@ -574,7 +646,7 @@ var clusterize = new Clusterize({
       <h5>Author</h5>
       <div class="row">
         <div class="large-8 medium-6 columns">
-          Denis Lukov [ <a href="https://github.com/NeXTs" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/profile/view?id=203377904" target="_blank">LinkedIn</a> ], special thanks to <a href="https://github.com/igorrynkovoy" target="_blank">igorrynkovoy</a> for the concept
+          Denis Lukov [ <a href="https://github.com/NeXTs" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/profile/view?id=203377904" target="_blank" rel="nofollow">LinkedIn</a> ], special thanks to <a href="https://github.com/igorrynkovoy" target="_blank">igorrynkovoy</a> for the concept
         </div>
         <div class="large-4 medium-6 columns text-right">Licensed under the MIT license</div>
       </div>
