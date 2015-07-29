@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.8.3 - 2015-07-30
+/*! Clusterize.js - v0.9.0 - 2015-07-30
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -108,6 +108,11 @@
         ? new_rows
         : [];
       var scroll_top = self.scroll_elem.scrollTop;
+      // fixes #39
+      if(rows.length * self.options.item_height < scroll_top) {
+        self.scroll_elem.scrollTop = 0;
+        last_cluster = 0;
+      }
       self.insertToDOM(rows, cache);
       self.scroll_elem.scrollTop = scroll_top;
     }
