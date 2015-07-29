@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.8.2 - 2015-07-03
+/*! Clusterize.js - v0.8.3 - 2015-07-30
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -82,12 +82,12 @@
 
     // adding scroll handler
     var last_cluster = false,
-    scrollEv = function(e) {
+    scrollEv = function() {
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     },
     resize_debounce = 0,
-    resizeEv = function(e) {
+    resizeEv = function() {
       clearTimeout(resize_debounce);
       resize_debounce = setTimeout(self.refresh, 100);
     }
@@ -202,7 +202,7 @@
       if( ! opts.cluster_height) {
         this.exploreEnvironment(rows);
       }
-      var items_start = cluster_num * opts.rows_in_cluster - opts.rows_in_block * cluster_num,
+      var items_start = (opts.rows_in_cluster - opts.rows_in_block) * cluster_num,
         items_start = items_start > 0 ? items_start : 0,
         items_end = items_start + opts.rows_in_cluster,
         top_space = items_start * opts.item_height,
@@ -245,9 +245,9 @@
       var content_elem = this.content_elem;
       if(ie && ie <= 9 && this.options.tag == 'tr') {
         var div = document.createElement('div'), last;
-        div.innerHTML = '<table><tbody>' + data + '</tbody></table>'
+        div.innerHTML = '<table><tbody>' + data + '</tbody></table>';
         while((last = content_elem.lastChild)) {
-          content_elem.removeChild(last)
+          content_elem.removeChild(last);
         }
         var rows_nodes = this.getChildNodes(div.firstChild.firstChild);
         while (rows_nodes.length) {
