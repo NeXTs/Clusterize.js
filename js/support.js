@@ -89,7 +89,7 @@ function initStepTutorial() {
                 clearTimeout(timer);
                 break;
             }
-          }, 1000);
+          }, 500);
         });
       }, 10);
     }
