@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.9.1 - 2015-08-01
+/*! Clusterize.js - v0.10.0 - 2015-08-05
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -19,7 +19,8 @@
          all[0];
        ){}
     return v > 4 ? v : document.documentMode;
-  }());
+  }()),
+  is_mac = navigator.platform.toLowerCase().indexOf('mac') + 1;
 
   var Clusterize = function(data) {
     if( ! (this instanceof Clusterize))
@@ -82,7 +83,19 @@
 
     // adding scroll handler
     var last_cluster = false,
+    scroll_debounce = 0,
+    pointer_events_set = false,
     scrollEv = function() {
+      // fixes scrolling issue on Mac #3
+      if (is_mac) {
+          if( ! pointer_events_set) self.content_elem.style.pointerEvents = 'none';
+          pointer_events_set = true;
+          clearTimeout(scroll_debounce);
+          scroll_debounce = setTimeout(function () {
+              self.content_elem.style.pointerEvents = 'auto';
+              pointer_events_set = false;
+          }, 50);
+      }
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
     },
