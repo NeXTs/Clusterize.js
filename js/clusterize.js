@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.10.0 - 2015-08-05
+/*! Clusterize.js - v0.11.0 - 2015-08-08
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -168,12 +168,9 @@
       var opts = this.options;
       opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! rows.length) return;
-      if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].split('<')[1].split(' ')[0].split('>')[0].toLowerCase();
-      if(this.content_elem.children.length <= 1 || ! opts.tag) {
-        this.html(rows[0] + rows[0] + rows[0]);
-        var node = this.content_elem.children[1];
-        if( ! opts.tag) opts.tag = node.tagName.toLowerCase();
-      }
+      if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].match(/<([^>\s/]*)/)[1].toLowerCase();
+      if(this.content_elem.children.length <= 1) this.html(rows[0] + rows[0] + rows[0]);
+      if( ! opts.tag) opts.tag = this.content_elem.children[0].tagName.toLowerCase();
       this.getRowsHeight(rows);
     },
     getRowsHeight: function(rows) {
@@ -190,7 +187,7 @@
     },
     // get current cluster number
     getClusterNum: function () {
-      return Math.floor(this.scroll_elem.scrollTop / (this.options.cluster_height - this.options.block_height));
+      return Math.floor(this.scroll_elem.scrollTop / (this.options.cluster_height - this.options.block_height)) || 0;
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
