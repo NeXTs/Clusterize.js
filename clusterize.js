@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.10.1 - 2015-08-08
+/*! Clusterize.js - v0.11.0 - 2015-08-08
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -187,7 +187,7 @@
     },
     // get current cluster number
     getClusterNum: function () {
-      return Math.floor(this.scroll_elem.scrollTop / (this.options.cluster_height - this.options.block_height));
+      return Math.floor(this.scroll_elem.scrollTop / (this.options.cluster_height - this.options.block_height)) || 0;
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
