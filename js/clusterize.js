@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.11.0 - 2015-08-08
+/*! Clusterize.js - v0.12.0 - 2015-08-14
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -180,6 +180,9 @@
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
       opts.item_height = nodes[Math.ceil(nodes.length / 2)].offsetHeight;
+      // consider table's border-spacing
+      if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
+        opts.item_height += parseInt(getStyle('borderSpacing', this.content_elem)) || 0;
       opts.block_height = opts.item_height * opts.rows_in_block;
       opts.rows_in_cluster = opts.blocks_in_cluster * opts.rows_in_block;
       opts.cluster_height = opts.blocks_in_cluster * opts.block_height;
@@ -294,6 +297,9 @@
   }
   function isArray(arr) {
     return Object.prototype.toString.call(arr) === '[object Array]';
+  }
+  function getStyle(prop, elem) {
+    return window.getComputedStyle ? window.getComputedStyle(elem)[prop] : elem.currentStyle[prop];
   }
 
   return Clusterize;
