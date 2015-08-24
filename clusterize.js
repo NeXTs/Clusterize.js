@@ -40,12 +40,13 @@
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
       keep_parity: true,
-      verify_change: false
+      verify_change: false,
+      afterInsertToDOM: function(){}
     }
 
     // public parameters
     self.options = {};
-    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag'];
+    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'afterInsertToDOM'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
         ? data[option]
@@ -255,6 +256,7 @@
         this.html(outer_data);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
       }
+      this.options.afterInsertToDOM(data);
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
     html: function(data) {
