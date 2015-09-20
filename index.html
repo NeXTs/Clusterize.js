@@ -529,14 +529,14 @@ var clusterize = new Clusterize({
             <div id="panel2a" class="content">
               Use native <b>.scrollTop</b>
               <pre><code class="language-javascript">
-  var clusterize = new Clusterize({
-    rows: rows,
-    scrollId: 'scrollElemId',
-    contentId: 'contentElemId'
-  });
+var clusterize = new Clusterize({
+  rows: rows,
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
 
-  document.getElementById('scrollElemId').scrollTop = 500;
-  </code></pre>
+document.getElementById('scrollElemId').scrollTop = 500;
+</code></pre>
             </div>
           </li>
           <li class="accordion-navigation">
@@ -550,34 +550,125 @@ var clusterize = new Clusterize({
               <div class="row">
                 <div class="large-6 columns">
                   <pre><code class="language-javascript">
-  // JavaScript
-  var clusterize = new Clusterize({
-    rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
-    scrollId: 'scrollElemId',
-    contentId: 'contentElemId'
-  });
+// JavaScript
+var clusterize = new Clusterize({
+  rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
 
-  document.getElementById('contentElemId').onclick = function(e) {
-    e = e || event;
-    var target = e.target || e.srcElement;
-    if(target.nodeName != 'TR') return;
-    // do stuff with row
-  }
-  </code></pre>
+document.getElementById('contentElemId').onclick = function(e) {
+  e = e || event;
+  var target = e.target || e.srcElement;
+  if(target.nodeName != 'TR') return;
+  // do stuff with row
+}
+</code></pre>
                 </div>
                 <div class="large-6 columns">
                   <pre><code class="language-javascript">
-  // jQuery
-  var clusterize = new Clusterize({
-    rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
-    scrollId: 'scrollElemId',
-    contentId: 'contentElemId'
-  });
+// jQuery
+var clusterize = new Clusterize({
+  rows: rows, //['&lt;tr&gt;…&lt;/tr&gt;', …]
+  scrollId: 'scrollElemId',
+  contentId: 'contentElemId'
+});
 
-  $('#contentElemId').on('click', 'tr', function() {
-    // do stuff with row
+$('#contentElemId').on('click', 'tr', function() {
+  // do stuff with row
+});
+</code></pre>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-navigation">
+            <a href="#panel4a">How to implement search?</a>
+            <div id="panel4a" class="content">
+              Search functionality should be provided by yourself. Clusterize.js is only responsible for presentation.
+              Here is example of how multi-column search may be implemented. <a href="http://codepen.io/NeXTs/pen/zvBveE" target="_blank" rel="nofollow">Checkout out demo at CodePen</a>
+              <div class="row">
+                <div class="small-12 large-5 columns">
+                  <pre><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;input type=&quot;text&quot; id=&quot;search&quot;/&gt;
+
+&lt;div class=&quot;clusterize&quot;&gt;
+  &lt;table&gt;
+    &lt;thead&gt;&lt;/thead&gt;
+  &lt;/table&gt;
+  &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+    &lt;table&gt;
+      &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+        &lt;tr class=&quot;clusterize-no-data&quot;&gt;
+          &lt;td&gt;Loading data…&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt; 
+&lt;/div&gt;</code></pre>
+                </div>
+                <div class="small-12 large-7 columns">
+                  <pre><code class="language-javascript">
+// JavaScript
+var rows = [],
+    search = document.getElementById('search');
+
+/* Fill arra with data
+ *
+ * Params:
+ * values *array*  - value of each field (in case use of table)
+ *        example: ['1st TD content', '2nd TD content'] for table
+ *                 ['list's LI item content'] for list
+ * markup *string* - markup that will be added to the DOM
+ * active *bool*   - specifies if row is suitable by search phrase
+*/
+for(var i = 1; i <= 500; i++){
+  rows.push({
+    values: [i, i*100/500+'%'],
+    markup: '&lt;tr&gt;' +
+              '&lt;td&gt;' + i + '&lt;/td&gt;' +
+              '&lt;td&gt;' + (i*100/500+'%') + '&lt;/td&gt;' +
+            '&lt;/tr&gt;',
+    active: true
   });
-  </code></pre>
+}
+
+/*
+* Fetch suitable rows
+*/
+var filterRows = function(rows) {
+  var results = [];
+  for(var i = 0, ii = rows.length; i < ii; i++) {
+    if(rows[i].active) results.push(rows[i].markup)
+  }
+  return results;
+}
+
+/*
+* Init clusterize.js
+*/
+var clusterize = new Clusterize({
+  rows: filterRows(rows),
+  scrollId: 'scrollArea',
+  contentId: 'contentArea'
+});
+
+/*
+* Attach listener to search input tag and filter list on change
+*/
+var onSearch = function() {
+  for(var i = 0, ii = rows.length; i < ii; i++) {
+    var suitable = false;
+    for(var j = 0, jj = rows[i].values.length; j < jj; j++) {
+      if(rows[i].values[j].toString().indexOf(search.value) + 1)
+        suitable = true;
+    }
+    rows[i].active = suitable;
+  }
+  clusterize.update(filterRows(rows));
+}
+search.oninput = onSearch;</code></pre>
                 </div>
               </div>
             </div>
