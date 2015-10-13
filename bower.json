@@ -6,7 +6,7 @@
   ],
   "ignore": [],
   "moduleType": [
-    "globals", "amd"
+    "globals", "amd", "commonjs"
   ],
   "keywords": [
     "large", "table", "list", "scroll", "grid", "cluster"
