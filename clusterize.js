@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.12.0 - 2015-08-14
+/*! Clusterize.js - v0.13.0 - 2015-11-10
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -40,12 +40,13 @@
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
       keep_parity: true,
-      verify_change: false
+      verify_change: false,
+      callbacks: {}
     }
 
     // public parameters
     self.options = {};
-    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag'];
+    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
         ? data[option]
@@ -250,10 +251,13 @@
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
       var data = this.generate(rows, this.getClusterNum()),
-        outer_data = data.rows.join('');
+        outer_data = data.rows.join(''),
+        callbacks = this.options.callbacks;
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
+        callbacks.clusterWillChange && callbacks.clusterWillChange();
         this.html(outer_data);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
+        callbacks.clusterChanged && callbacks.clusterChanged();
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
