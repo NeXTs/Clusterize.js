@@ -453,6 +453,41 @@ var clusterize = new Clusterize({
 
           </tbody>
         </table>
+        <a name="callbacks"></a>
+        <h5>Callbacks</h5>
+        <div class="row">
+          <div class="medium-6 columns">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>clusterWillChange</td>
+                  <td>Will be called right before replacing previous cluster with new one.</td>
+                </tr>
+                <tr>
+                  <td>clusterChanged</td>
+                  <td>Will be called right after replacing previous cluster with new one.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="medium-6 columns">
+<pre class="mt0"><code class="language-javascript">
+// Callbacks usage example
+var clusterize = new Clusterize({
+  …
+  callbacks: {
+    clusterWillChange: function() {},
+    clusterChanged: function() {}
+  }
+});</code></pre>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
