@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.13.0 - 2015-11-10
+/*! Clusterize.js - v0.14.0 - 2015-11-11
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed MIT */
 
@@ -41,7 +41,8 @@
       no_data_text: 'No data',
       keep_parity: true,
       verify_change: false,
-      callbacks: {}
+      callbacks: {},
+      scroll_top: 0
     }
 
     // public parameters
@@ -99,6 +100,8 @@
       }
       if (last_cluster != (last_cluster = self.getClusterNum()))
         self.insertToDOM(rows, cache);
+      if (self.options.callbacks.scrollingProgress)
+        self.options.callbacks.scrollingProgress(self.getScrollProgress());
     },
     resize_debounce = 0,
     resizeEv = function() {
@@ -136,6 +139,10 @@
     self.getRowsAmount = function() {
       return rows.length;
     }
+    self.getScrollProgress = function() {
+      return this.options.scroll_top / (rows.length * this.options.item_height) * 100 || 0;
+    }
+
     var add = function(where, _new_rows) {
       var new_rows = isArray(_new_rows)
         ? _new_rows
@@ -191,7 +198,8 @@
     },
     // get current cluster number
     getClusterNum: function () {
-      return Math.floor(this.scroll_elem.scrollTop / (this.options.cluster_height - this.options.block_height)) || 0;
+      this.options.scroll_top = this.scroll_elem.scrollTop;
+      return Math.floor(this.options.scroll_top / (this.options.cluster_height - this.options.block_height)) || 0;
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
