@@ -40,7 +40,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.18KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.25KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -441,6 +441,11 @@ var clusterize = new Clusterize({
               <td>Returns total amount of rows</td>
             </tr>
             <tr>
+              <td>.getScrollProgress()</td>
+              <td></td>
+              <td>Returns current scroll progress</td>
+            </tr>
+            <tr>
               <td>.clear()</td>
               <td></td>
               <td>Clears the list</td>
@@ -473,6 +478,10 @@ var clusterize = new Clusterize({
                   <td>clusterChanged</td>
                   <td>Will be called right after replacing previous cluster with new one.</td>
                 </tr>
+                <tr>
+                  <td>getScrollProgress</td>
+                  <td>Will be called on scrolling. Returns progress position.</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -483,7 +492,8 @@ var clusterize = new Clusterize({
   …
   callbacks: {
     clusterWillChange: function() {},
-    clusterChanged: function() {}
+    clusterChanged: function() {},
+    getScrollProgress: function(progress) {}
   }
 });</code></pre>
           </div>
@@ -740,6 +750,7 @@ search.oninput = onSearch;</code></pre>
     <div class="large-6 medium-8 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.14.0</b> Added scrollingProgress, getScrollProgress <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/44" target="_blank">#48</a>]</sup></li>
         <li><b>0.13.0</b> Implemented callbacks <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/48" target="_blank">#48</a>]</sup></li>
         <li><b>0.12.0</b> Consider table's border-spacing property</li>
         <li><b>0.11.0</b> Fixed empty-list issue <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/40" target="_blank">#40</a>]</sup></li>

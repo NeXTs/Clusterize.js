@@ -140,7 +140,7 @@
       return rows.length;
     }
     self.getScrollProgress = function() {
-      return this.options.scroll_top / (rows.length * this.options.item_height) * 100 || 0
+      return this.options.scroll_top / (rows.length * this.options.item_height) * 100 || 0;
     }
 
     var add = function(where, _new_rows) {
