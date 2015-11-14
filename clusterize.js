@@ -262,7 +262,9 @@
         outer_data = data.rows.join(''),
         callbacks = this.options.callbacks;
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
-        callbacks.clusterWillChange && callbacks.clusterWillChange();
+        if (callbacks.clusterWillChange) {
+            outer_data = callbacks.clusterWillChange(outer_data);
+        }
         this.html(outer_data);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
         callbacks.clusterChanged && callbacks.clusterChanged();
