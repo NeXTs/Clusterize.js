@@ -5,7 +5,9 @@
     "large", "table", "list", "scroll", "grid", "cluster"
   ],
   "authors": [
-    "Denis Lukov"
+    {
+      "name": "Denis Lukov"
+    }
   ],
   "license": "MIT",
   "homepage": "https://github.com/NeXTs/Clusterize.js"
