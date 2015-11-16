@@ -210,6 +210,7 @@
       empty_row.className = opts.no_data_class;
       if(opts.tag == 'tr') {
         td = document.createElement('td');
+        td.colspan = 50;
         td.appendChild(no_data_content);
       }
       empty_row.appendChild(td || no_data_content);
