@@ -1,0 +1,12 @@
+{
+  "name": "etdsolutions/clusterize.js",
+  "description": "Tiny vanilla JS plugin to display large data sets easily",
+  "keywords": [
+    "large", "table", "list", "scroll", "grid", "cluster"
+  ],
+  "authors": [
+    "Denis Lukov"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/NeXTs/Clusterize.js"
+}
