@@ -5,6 +5,6 @@
 
 > Tiny vanilla JS plugin to display large data sets easily
 
-[Demo, usage, etc…](http://nexts.github.io/Clusterize.js/)
+[Demo, usage, etc…](https://clusterize.js.org/)
 
-[![example](http://nexts.github.io/Clusterize.js/img/table_example.gif)](http://nexts.github.io/Clusterize.js/)
+[![example](http://nexts.github.io/Clusterize.js/img/table_example.gif)](https://clusterize.js.org/)
