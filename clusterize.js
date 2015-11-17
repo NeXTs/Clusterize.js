@@ -159,6 +159,9 @@
     self.prepend = function(rows) {
       add('prepend', rows);
     }
+    self.updateRow = function(index, html) {
+      rows[index] = html;
+    }
   }
 
   Clusterize.prototype = {
