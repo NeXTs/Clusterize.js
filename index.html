@@ -155,9 +155,18 @@
           <div class="large-2 columns small-6" style="padding: 1em;margin: .5em 0;">or <a href="http://osscdn.com/#/clusterize.js" target="_blank">MaxCDN</a> / <a href="https://cdnjs.com/libraries/clusterize.js" target="_blank">cdnjs</a></div>
         </div>
         <h5>Include it on your page</h5>
-        <pre><code class="language-markup">&#x3C;link&#x20;href&#x3D;&#x22;./clusterize.css&#x22;&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x3E;
+        <div class="row">
+          <div class="small-9 medium-10 columns">
+            <pre><code class="language-markup">&#x3C;link&#x20;href&#x3D;&#x22;./clusterize.css&#x22;&#x20;rel&#x3D;&#x22;stylesheet&#x22;&#x3E;
 &#x3C;script&#x20;src&#x3D;&#x22;./clusterize.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
-</code></pre>
+</code></pre>            
+          </div>
+          <div class="small-3 medium-2 columns" style="padding: 1em;">
+            <div>Modules:</div>
+            <div><span data-tooltip aria-haspopup="true" class="has-tip tip-left" data-disable-hover='false' tabindex=1 title="<pre><code class='language-javascript'>require('Clusterize', function(Clusterize) { });</code></pre>">AMD</span></div>
+            <div><span data-tooltip aria-haspopup="true" class="has-tip tip-left" data-disable-hover='false' tabindex=1 title="<pre><code class='language-javascript'>var Clusterize = require('Clusterize');</code></pre>">CommonJS</span></div>
+          </div>
+        </div>
         <a name="usage"></a>
         <h5>Usage</h5>
         <div class="row">

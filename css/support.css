@@ -99,3 +99,7 @@
 .mt0{
   margin-top: 0 !important;
 }
+
+.tooltip{
+  max-width: 500px;
+}
