@@ -190,7 +190,7 @@
       opts.cluster_height = 0
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
-      opts.item_height = nodes[Math.ceil(nodes.length / 2)].offsetHeight;
+      opts.item_height = nodes[Math.floor(nodes.length / 2)].offsetHeight;
       // consider table's border-spacing
       if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
         opts.item_height += parseInt(getStyle('borderSpacing', this.content_elem)) || 0;
