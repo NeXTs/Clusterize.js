@@ -159,6 +159,9 @@
     self.prepend = function(rows) {
       add('prepend', rows);
     }
+    self.updateRow = function(index, html) {
+      rows[index] = html;
+    }
   }
 
   Clusterize.prototype = {
@@ -187,7 +190,7 @@
       opts.cluster_height = 0
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
-      opts.item_height = nodes[Math.ceil(nodes.length / 2)].offsetHeight;
+      opts.item_height = nodes[Math.floor(nodes.length / 2)].offsetHeight;
       // consider table's border-spacing
       if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
         opts.item_height += parseInt(getStyle('borderSpacing', this.content_elem)) || 0;
@@ -210,6 +213,7 @@
       empty_row.className = opts.no_data_class;
       if(opts.tag == 'tr') {
         td = document.createElement('td');
+        td.colspan = 50;
         td.appendChild(no_data_content);
       }
       empty_row.appendChild(td || no_data_content);
@@ -262,7 +266,9 @@
         outer_data = data.rows.join(''),
         callbacks = this.options.callbacks;
       if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
-        callbacks.clusterWillChange && callbacks.clusterWillChange();
+        if (callbacks.clusterWillChange) {
+            outer_data = callbacks.clusterWillChange(outer_data);
+        }
         this.html(outer_data);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
         callbacks.clusterChanged && callbacks.clusterChanged();
