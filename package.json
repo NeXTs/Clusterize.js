@@ -20,7 +20,7 @@
     "cluster"
   ],
   "author": "Denis Lukov",
-  "license": "MIT",
+  "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/NeXTs/Clusterize.js/issues"
   },
