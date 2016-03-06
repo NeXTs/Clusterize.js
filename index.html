@@ -749,6 +749,140 @@ search.oninput = onSearch;</code></pre>
               </div>
             </div>
           </li>
+          <li class="accordion-navigation">
+            <a href="#panel5a">How to keep table headers synced?</a>
+            <div id="panel5a" class="content">
+              In case you use table you may already noticed that headers should be placed in separated table so you may be wondered how to keep headers synced with table content.
+              Here is example of how headers sync (including columns width, horizontal scroll position) may be implemented. <a href="http://codepen.io/NeXTs/pen/yeLPGa" target="_blank" rel="nofollow">Checkout out demo at CodePen</a><br />
+              P.s. for brevity jQuery and Lodash were used
+              <div class="row">
+                <div class="small-12 large-5 columns">
+                  <pre><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div class=&quot;clusterize&quot;&gt;
+  &lt;div class=&quot;clusterize-headers&quot;&gt;
+    &lt;table id=&quot;headersArea&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;td&gt;ID&lt;/td&gt;
+          &lt;td&gt;Content&lt;/td&gt;
+          &lt;td&gt;Additional&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;scrollArea&quot; class=&quot;clusterize-scroll&quot;&gt;
+    &lt;table&gt;
+      &lt;tbody id=&quot;contentArea&quot; class=&quot;clusterize-content&quot;&gt;
+        &lt;tr class=&quot;clusterize-no-data&quot;&gt;
+          &lt;td&gt;Loading data…&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                  <pre><code class="language-css">
+/* CSS */
+
+/* To force exceed overflow-x limit for demo purposes */
+td {
+  white-space: nowrap;
+}
+
+.clusterize-headers {
+  overflow: hidden;
+}</code></pre>
+                </div>
+                <div class="small-12 large-7 columns">
+                  <pre><code class="language-javascript">
+// JavaScript
+var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet.';
+
+var $scroll = $('#scrollArea');
+var $content = $('#contentArea');
+var $headers = $("#headersArea");
+
+var data = [];
+
+/**
+ * Makes header columns equal width to content columns
+ */
+var fitHeaderColumns = (function() {
+  var prevWidth = [];
+  return function() {
+    var $firstRow = $content.find('tr:not(.clusterize-extra-row):first');
+    var columnsWidth = [];
+    $firstRow.children().each(function() {
+      columnsWidth.push($(this).width());
+    });
+    if (columnsWidth.toString() == prevWidth.toString()) return;
+    $headers.find('tr').children().each(function(i) {
+      $(this).width(columnsWidth[i]);
+    });
+    prevWidth = columnsWidth;
+  }
+})();
+
+/**
+ * Keep header equal width to tbody
+ */
+var setHeaderWidth = function() {
+  $headers.width($content.width());
+}
+
+/**
+ * Set left offset to header to keep equal horizontal scroll position
+ */
+var setHeaderLeftMargin = function(scrollLeft) {
+  $headers.css('margin-left', -scrollLeft);
+}
+
+/**
+ * Emulate data fill
+ */
+for (var i = 1; i <= 5000; i++) {
+  var content = lorem.slice(0, _.random(0, lorem.length));
+  data.push('&lt;tr&gt;\
+    &lt;td&gt;' + i + '&lt;/td&gt;\
+    &lt;td&gt;' + _.repeat(content, 3) + '.&lt;/td&gt;\
+    &lt;td&gt;&lt;button&gt;Button&lt;/button&gt;&lt;/td&gt;\
+  &lt;/tr&gt;');
+}
+
+var clusterize = new Clusterize({
+  rows: data,
+  scrollId: 'scrollArea',
+  contentId: 'contentArea',
+  callbacks: {
+    clusterChanged: function() {
+      fitHeaderColumns();
+      setHeaderWidth();
+    }
+  }
+});
+
+/**
+ * Update header columns width on window resize
+ */
+$(window).resize(_.debounce(fitHeaderColumns, 150));
+
+/**
+ * Update header left offset on scroll
+ */
+$scroll.on('scroll', (function() {
+  var prevScrollLeft = 0;
+  return function() {
+    var scrollLeft = $(this).scrollLeft();
+    if (scrollLeft == prevScrollLeft) return;
+    prevScrollLeft = scrollLeft;
+
+    setHeaderLeftMargin(scrollLeft);
+  }
+}()));</code></pre>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
