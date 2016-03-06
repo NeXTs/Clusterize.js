@@ -159,6 +159,10 @@
     self.prepend = function(rows) {
       add('prepend', rows);
     }
+
+    if (self.options.callbacks.clusterizeInit) {
+      self.options.callbacks.clusterizeInit(self);
+    }
   }
 
   Clusterize.prototype = {
