@@ -213,7 +213,7 @@ var playground = {
   },
   init: function() {
     playground.initButtons();
-    playground.initClusterize(25);
+    playground.initClusterize(24);
   }
 }
 
