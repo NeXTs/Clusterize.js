@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.15.0 - 2015-12-02
+/*! Clusterize.js - v0.16.0 - 2016-03-12
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -21,7 +21,6 @@
     return v > 4 ? v : document.documentMode;
   }()),
   is_mac = navigator.platform.toLowerCase().indexOf('mac') + 1;
-
   var Clusterize = function(data) {
     if( ! (this instanceof Clusterize))
       return new Clusterize(data);
@@ -40,14 +39,13 @@
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
       keep_parity: true,
-      verify_change: false,
       callbacks: {},
       scroll_top: 0
     }
 
     // public parameters
     self.options = {};
-    var options = ['rows_in_block', 'blocks_in_cluster', 'verify_change', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks'];
+    var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
         ? data[option]
@@ -71,7 +69,7 @@
     var rows = isArray(data.rows)
         ? data.rows
         : self.fetchMarkup(),
-      cache = {data: ''},
+      cache = {data: '', bottom: 0},
       scroll_top = self.scroll_elem.scrollTop;
 
     // get row height
@@ -221,6 +219,8 @@
         rows_len = rows.length;
       if (rows_len < opts.rows_in_block) {
         return {
+          top_offset: 0,
+          bottom_offset: 0,
           rows_above: 0,
           rows: rows_len ? rows : this.generateEmptyRow()
         }
@@ -230,21 +230,19 @@
       }
       var items_start = Math.max((opts.rows_in_cluster - opts.rows_in_block) * cluster_num, 0),
         items_end = items_start + opts.rows_in_cluster,
-        top_space = items_start * opts.item_height,
-        bottom_space = (rows_len - items_end) * opts.item_height,
+        top_offset = Math.max(items_start * opts.item_height, 0),
+        bottom_offset = Math.max((rows_len - items_end) * opts.item_height, 0),
         this_cluster_rows = [],
         rows_above = items_start;
-      if(top_space > 0) {
-        opts.keep_parity && this_cluster_rows.push(this.renderExtraTag('keep-parity'));
-        this_cluster_rows.push(this.renderExtraTag('top-space', top_space));
-      } else {
+      if(top_offset < 1) {
         rows_above++;
       }
       for (var i = items_start; i < items_end; i++) {
         rows[i] && this_cluster_rows.push(rows[i]);
       }
-      bottom_space > 0 && this_cluster_rows.push(this.renderExtraTag('bottom-space', bottom_space));
       return {
+        top_offset: top_offset,
+        bottom_offset: bottom_offset,
         rows_above: rows_above,
         rows: this_cluster_rows
       }
@@ -259,13 +257,25 @@
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
       var data = this.generate(rows, this.getClusterNum()),
-        outer_data = data.rows.join(''),
-        callbacks = this.options.callbacks;
-      if( ! this.options.verify_change || this.options.verify_change && this.dataChanged(outer_data, cache)) {
+        this_cluster_rows = data.rows.join(''),
+        this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
+        only_bottom_offset_changed = this.checkChanges('bottom', data.bottom_offset, cache),
+        callbacks = this.options.callbacks,
+        layout = [];
+
+      if(this_cluster_content_changed) {
+        if(data.top_offset) {
+          this.options.keep_parity && layout.push(this.renderExtraTag('keep-parity'));
+          layout.push(this.renderExtraTag('top-space', data.top_offset));
+        }
+        layout.push(this_cluster_rows);
+        data.bottom_offset && layout.push(this.renderExtraTag('bottom-space', data.bottom_offset));
         callbacks.clusterWillChange && callbacks.clusterWillChange();
-        this.html(outer_data);
+        this.html(layout.join(''));
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
         callbacks.clusterChanged && callbacks.clusterChanged();
+      } else if(only_bottom_offset_changed) {
+        this.content_elem.lastChild.style.height = data.bottom_offset + 'px';
       }
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
@@ -286,17 +296,16 @@
       }
     },
     getChildNodes: function(tag) {
-      var child_nodes = tag.children,
-          ie8_child_nodes_helper = [];
+        var child_nodes = tag.children, nodes = [];
         for (var i = 0, ii = child_nodes.length; i < ii; i++) {
-          ie8_child_nodes_helper.push(child_nodes[i]);
+            nodes.push(child_nodes[i]);
         }
-        return Array.prototype.slice.call(ie8_child_nodes_helper);
+        return nodes;
     },
-    dataChanged: function(data, cache) {
-      var current_data = JSON.stringify(data),
-        changed = current_data !== cache.data;
-      return changed && (cache.data = current_data);
+    checkChanges: function(type, value, cache) {
+      var changed = value != cache[type];
+      cache[type] = value;
+      return changed;
     }
   }
 

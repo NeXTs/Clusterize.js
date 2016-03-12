@@ -41,7 +41,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.25KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.27KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -426,11 +426,6 @@ var clusterize = new Clusterize({
               <td>keep_parity</td>
               <td>Optional</td>
               <td>Add extra tag to keep parity of rows. Useful when used :nth-child(even/odd). <b>Default: true</b></td>
-            </tr>
-            <tr>
-              <td>verify_change</td>
-              <td>Optional</td>
-              <td>Verify data changes before add to DOM. May be useful in case of frequent "falsy" updates with unchanged data. <b>Default: false</b></td>
             </tr>
           </tbody>
         </table>
@@ -918,6 +913,7 @@ $scroll.on('scroll', (function() {
     <div class="large-6 medium-8 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.16.0</b> Huge performance boost for <span title="Create, Update, Delete">C<strike style="opacity: .2;">R</strike>UD operations</span> <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/61" target="_blank">#61</a>]</sup></li>
         <li><b>0.15.0</b> Fixed row-height calculation <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/57" target="_blank">#57</a>]</sup></li>
         <li><b>0.14.0</b> Added scrollingProgress, getScrollProgress <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/44" target="_blank">#48</a>]</sup></li>
         <li><b>0.13.0</b> Implemented callbacks <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/48" target="_blank">#48</a>]</sup></li>
