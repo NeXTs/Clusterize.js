@@ -103,3 +103,67 @@
 .tooltip{
   max-width: 500px;
 }
+
+/* carbonads */
+#carbonads {
+  display: block;
+  overflow: hidden;
+  padding: 1em;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#carbonads .carbon-wrap {
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-text {
+  display: block;
+  float: left;
+  max-width: 50%;
+  text-align: left;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-poweredby {
+  display: block;
+  float: right;
+  margin-top: -1.9em;
+  font-size: 12px;
+  font-style: italic;
+}
+
+@media screen and (min-width: 642px) and (max-width: 1025px) {
+  #carbonads .carbon-wrap {
+    display: table;
+  }
+
+  .carbon-text {
+    padding-left: 1em;
+    display: table-cell;
+    vertical-align: top;
+    float: none;
+  }
+
+  .carbon-img {
+    display: table-cell;
+    float: none;
+    margin-right: 0em;
+  }
+
+  .carbon-poweredby {
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 850px) and (max-width: 1025px) {
+  .carbon-text {
+    padding-right: 3em;
+  }
+}
