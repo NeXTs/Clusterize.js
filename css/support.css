@@ -131,6 +131,10 @@
   margin-right: 1em;
 }
 
+.carbon-img img {
+  min-height: 100px;
+}
+
 .carbon-poweredby {
   display: block;
   float: right;
