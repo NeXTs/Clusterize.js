@@ -233,6 +233,44 @@ function initUsageNav() {
 
 initUsageNav();
 
+function fillTweets(amount) {
+  var userLang = (navigator.language || navigator.userLanguage).toLowerCase(),
+  tweets = shuffle([
+    {lang: 'en', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Clusterize.js: Tiny Vanilla JS Plugin to Display Large Data Sets Easily - <a href="http://t.co/NsxKyn2P6D">http://t.co/NsxKyn2P6D</a></p>&mdash; JavaScript Daily (@JavaScriptDaily) <a href="https://twitter.com/JavaScriptDaily/status/602882335374188544">May 25, 2015</a></blockquote>'},
+    {lang: 'en', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Very handy: if you need to work with large data sets, Clusterize.js helps you deal with performance issues. <a href="http://t.co/Quw9TNQ2ov">http://t.co/Quw9TNQ2ov</a></p>&mdash; Smashing Magazine (@smashingmag) <a href="https://twitter.com/smashingmag/status/596365446749802496">May 7, 2015</a></blockquote>'},
+    {lang: 'en', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Clusterize.js – Tiny plugin to display large data sets easily <a href="http://t.co/c1vrTm4Rul">http://t.co/c1vrTm4Rul</a></p>&mdash; Hacker News (@newsycombinator) <a href="https://twitter.com/newsycombinator/status/594547326116573185">May 2, 2015</a></blockquote>'},
+    {lang: 'tl', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="tl" dir="ltr">Tiny vanilla JS plugin to display large data sets easily <a href="https://t.co/B97Q5YU5Ly">https://t.co/B97Q5YU5Ly</a></p>&mdash; (((Chris Heilmann))) (@codepo8) <a href="https://twitter.com/codepo8/status/593689977696985088">April 30, 2015</a></blockquote>'},
+    {lang: 'ja', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">ブラウザ内で50万件のテーブルもサクサクで表示できるようにする「Clusterize.js」:phpspot開発日誌 (51 users) <a href="http://t.co/RbWuOsHQUm">http://t.co/RbWuOsHQUm</a> 4件のコメント <a href="http://t.co/rrhCTzCYyx">http://t.co/rrhCTzCYyx</a></p>&mdash; はてなブックマーク::Hotentry (@hatebu) <a href="https://twitter.com/hatebu/status/596204353318354944">May 7, 2015</a></blockquote>'},
+    {lang: 'fr', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="fr" dir="ltr">Clusterize.js - Affichez des gros volumes de données facilement: <a href="http://t.co/745tfpc51j">http://t.co/745tfpc51j</a> <a href="https://twitter.com/hashtag/fdw?src=hash">#fdw</a> <a href="https://twitter.com/hashtag/dataset?src=hash">#dataset</a> <a href="https://twitter.com/hashtag/tableaux?src=hash">#tableaux</a> <a href="https://twitter.com/hashtag/donnees?src=hash">#donnees</a> <a href="https://twitter.com/hashtag/javascript?src=hash">#javascript</a></p>&mdash; DJo (@LaFermeDuWeb) <a href="https://twitter.com/LaFermeDuWeb/status/598379673945513984">May 13, 2015</a></blockquote>'},
+    {lang: 'en', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Clusterize.js <a href="http://t.co/e1gDABWeH1">http://t.co/e1gDABWeH1</a></p>&mdash; Awwwards (@AWWWARDS) <a href="https://twitter.com/AWWWARDS/status/605039841206784000">May 31, 2015</a></blockquote>'},
+    {lang: 'en', used: false, markup: '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Clusterize.js — a tiny vanilla JS plugin to display large data sets easily <a href="http://t.co/xmlj1cHGpa">http://t.co/xmlj1cHGpa</a></p>&mdash; The Changelog (@changelog) <a href="https://twitter.com/changelog/status/593474356287840256">April 29, 2015</a></blockquote>'}
+  ]),
+  result = [];
+
+  for(var i = 0, ii = tweets.length, item; i < ii; i++) {
+    item = tweets[i]
+    if(item.lang != 'en' && item.lang == userLang && Math.round(Math.random())) {
+      item.used = true;
+      result.push(item.markup)
+    }
+  }
+
+  while(result.length < amount) {
+    var item = tweets[numRange(0, tweets.length - 1)]
+    if(item.used) continue;
+    item.used = true;
+    result.push(item.markup)
+  }
+
+  for(var i = 0; i < result.length; i++) {
+    result[i] = '<div class="medium-6 columns">' + result[i] + '</div>';
+  }
+
+  $('#tweets').html(result.join(''));
+}
+
+fillTweets(2);
+
 /**
  * Utils
  */
@@ -331,4 +369,23 @@ function number_format( number, decimals, dec_point, thousands_sep ) {  // Forma
   kd = (decimals ? dec_point + Math.abs(number - i).toFixed(decimals).replace(/-/, 0).slice(2) : "");
 
   return km + kw + kd;
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
