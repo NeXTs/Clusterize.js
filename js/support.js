@@ -267,6 +267,13 @@ function fillTweets(amount) {
   }
 
   $('#tweets').html(result.join(''));
+
+  $(window).on('scroll.tweets', function() {
+    if($(window).scrollTop() + window.innerHeight > $(document).height() / 2) {
+      $('body').append('<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
+      $(window).off('scroll.tweets');
+    }
+  });
 }
 
 fillTweets(2);
