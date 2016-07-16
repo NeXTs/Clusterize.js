@@ -41,7 +41,7 @@
           </span>
         </div>
       </div>
-      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.27KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
+      <h4 class="subheader"><span class="has-tip" data-tooltip aria-haspopup="true" title="2.28KB minified and gzipped">Tiny</span> plugin to display large data sets easily</h4>
       <hr>
     </div>
   </div>
@@ -885,6 +885,86 @@ $scroll.on('scroll', (function() {
               </div>
             </div>
           </li>
+          <li class="accordion-navigation">
+            <a href="#panel6a">How to handle table with table-layout: fixed?</a>
+            <div id="panel6a" class="content">
+              In addition to external thead'ers, duplicate thead with empty cells inside table and set width for both of them.
+              This trick will force browser to render all columns with specified width.
+              Here is example of required markup. <a href="http://codepen.io/NeXTs/pen/RRxyQb" target="_blank" rel="nofollow">Checkout out demo at CodePen</a><br />
+              <div class="row">
+                <div class="small-12 large-6 columns">
+                  <pre><code class="language-markup">
+&lt;!--HTML--&gt;
+&lt;div class="clusterize"&gt;
+  &lt;table class="table"&gt;
+  
+    &lt;!-- Visual headers --&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Col1&lt;/td&gt;
+        &lt;td&gt;Col2&lt;/td&gt;
+        &lt;td&gt;Col3&lt;/td&gt;
+        &lt;td&gt;Col4&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+  &lt;/table&gt;
+  &lt;div id="scrollArea" class="clusterize-scroll"&gt;
+    &lt;table class="table"&gt;
+    
+      &lt;!-- Hidden helper headers to keep columns width (specified by css), td's must be empty --&gt;
+      &lt;thead&gt;
+        &lt;td&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+      &lt;/thead&gt;
+      &lt;tbody id="contentArea" class="clusterize-content"&gt;
+        &lt;tr class="clusterize-no-data"&gt;
+
+          &lt;!-- Note colspan which forces single td to fill whole table width --&gt;
+          &lt;td colspan="100"&gt;Loading data…&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+                <div class="small-12 large-6 columns">
+                  <pre><code class="language-css">
+/* CSS */
+
+/* Set appropriate styles for table */
+.table {
+  table-layout: fixed;
+  width: 550px;
+}
+
+/* It's important to set equal width for both thead's (visual and helper) */
+.clusterize thead td:nth-child(1) { width: 75px; }
+.clusterize thead td:nth-child(2) { width: 125px; }
+.clusterize thead td:nth-child(3) { width: 150px; }
+.clusterize thead td:nth-child(4) { width: 200px; }</code></pre>
+                  <pre><code class="language-javascript">
+// JavaScript
+var data = [];
+for (var i = 0; i &lt;= 5000; i++) {
+   data.push('&lt;tr&gt;
+    &lt;td&gt;' + i + '&lt;/td&gt;\
+    &lt;td&gt;width: 125px&lt;/td&gt;\
+    &lt;td&gt;width: 150px&lt;/td&gt;\
+    &lt;td&gt;width: 200px&lt;/td&gt;\
+  &lt;/tr&gt;');
+}
+
+var clusterize = new Clusterize({
+   rows: data,
+   scrollId: 'scrollArea',
+   contentId: 'contentArea'
+})</code></pre>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -920,6 +1000,7 @@ $scroll.on('scroll', (function() {
     <div class="large-6 medium-8 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.16.1</b> Fixed blank row for table-layout: fixed <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/53" target="_blank">#53</a>]</sup></li>
         <li><b>0.16.0</b> Huge performance boost for <span title="Create, Update, Delete">C<strike style="opacity: .2;">R</strike>UD operations</span> <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/61" target="_blank">#61</a>]</sup></li>
         <li><b>0.15.0</b> Fixed row-height calculation <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/57" target="_blank">#57</a>]</sup></li>
         <li><b>0.14.0</b> Added scrollingProgress, getScrollProgress <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/44" target="_blank">#48</a>]</sup></li>
