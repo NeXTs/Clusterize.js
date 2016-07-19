@@ -205,3 +205,30 @@
     margin-left: 0;
   }
 }
+
+.see-also {
+  background-size: cover;
+  background-position: top;
+  display: block;
+  width: 100%;
+  height: 65px;
+  position: relative;
+}
+
+.see-also:hover:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0, .1);
+}
+
+.see-also-jets {
+  background-image: url('../img/jets.png');
+}
+
+.see-also-multiple {
+  background-image: url('../img/multiple.jpg');
+}
