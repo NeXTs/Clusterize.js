@@ -213,6 +213,8 @@
   width: 100%;
   height: 65px;
   position: relative;
+  -webkit-transition: all 0.35s ease-out;
+  transition: all 0.35s ease-out;
 }
 
 .see-also:hover:before {
@@ -231,4 +233,9 @@
 
 .see-also-multiple {
   background-image: url('../img/multiple.jpg');
+}
+
+.see-also-jets:hover,
+.see-also-multiple:hover {
+  background-position: 0 3%;
 }
