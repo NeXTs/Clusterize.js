@@ -40,7 +40,13 @@
       no_data_text: 'No data',
       keep_parity: true,
       callbacks: {},
-      scroll_top: 0
+      scroll_top: 0,
+      scroll_top_getter: function() {
+        return self.scroll_elem.scrollTop;
+      },
+      scroll_top_setter: function(amt) {
+        self.scroll_elem.scrollTop = amt;
+      }
     }
 
     // public parameters
@@ -70,7 +76,7 @@
         ? data.rows
         : self.fetchMarkup(),
       cache = {data: '', bottom: 0},
-      scroll_top = self.scroll_elem.scrollTop;
+      scroll_top = self.options.scroll_top_getter();
 
     // get row height
     self.exploreEnvironment(rows);
@@ -79,7 +85,7 @@
     self.insertToDOM(rows, cache);
 
     // restore the scroll position
-    self.scroll_elem.scrollTop = scroll_top;
+    self.options.scroll_top_setter(scroll_top);
 
     // adding scroll handler
     var last_cluster = false,
@@ -122,14 +128,14 @@
       rows = isArray(new_rows)
         ? new_rows
         : [];
-      var scroll_top = self.scroll_elem.scrollTop;
+      var scroll_top = self.options.scroll_top_getter();
       // fixes #39
       if(rows.length * self.options.item_height < scroll_top) {
-        self.scroll_elem.scrollTop = 0;
+        self.options.scroll_top_setter(0);
         last_cluster = 0;
       }
       self.insertToDOM(rows, cache);
-      self.scroll_elem.scrollTop = scroll_top;
+      self.options.scroll_top_setter(scroll_top);
     }
     self.clear = function() {
       self.update([]);
@@ -196,7 +202,7 @@
     },
     // get current cluster number
     getClusterNum: function () {
-      this.options.scroll_top = this.scroll_elem.scrollTop;
+      this.options.scroll_top = this.options.scroll_top_getter();
       return Math.floor(this.options.scroll_top / (this.options.cluster_height - this.options.block_height)) || 0;
     },
     // generate empty row if no data provided
