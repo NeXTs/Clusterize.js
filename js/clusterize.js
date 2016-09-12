@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.16.1 - 2016-08-16
+/*! Clusterize.js - v0.17.0 - 2016-09-12
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -185,10 +185,17 @@
       opts.cluster_height = 0
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
-      opts.item_height = nodes[Math.floor(nodes.length / 2)].offsetHeight;
+      var node = nodes[Math.floor(nodes.length / 2)];
+      opts.item_height = node.offsetHeight;
       // consider table's border-spacing
       if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
         opts.item_height += parseInt(getStyle('borderSpacing', this.content_elem), 10) || 0;
+      // consider margins (and margins collapsing)
+      if(opts.tag != 'tr') {
+        var marginTop = parseInt(getStyle('marginTop', node), 10) || 0;
+        var marginBottom = parseInt(getStyle('marginBottom', node), 10) || 0;
+        opts.item_height += Math.max(marginTop, marginBottom);
+      }
       opts.block_height = opts.item_height * opts.rows_in_block;
       opts.rows_in_cluster = opts.blocks_in_cluster * opts.rows_in_block;
       opts.cluster_height = opts.blocks_in_cluster * opts.block_height;
