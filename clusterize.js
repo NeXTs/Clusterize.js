@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.0 - 2016-09-12
+/*! Clusterize.js - v0.17.1 - 2016-09-15
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -27,20 +27,14 @@
     var self = this;
 
     var defaults = {
-      item_height: 0,
-      block_height: 0,
       rows_in_block: 50,
-      rows_in_cluster: 0,
-      cluster_height: 0,
       blocks_in_cluster: 4,
       tag: null,
-      content_tag: null,
       show_no_data_row: true,
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
       keep_parity: true,
-      callbacks: {},
-      scroll_top: 0
+      callbacks: {}
     }
 
     // public parameters
@@ -71,9 +65,6 @@
         : self.fetchMarkup(),
       cache = {data: '', bottom: 0},
       scroll_top = self.scroll_elem.scrollTop;
-
-    // get row height
-    self.exploreEnvironment(rows);
 
     // append initial data
     self.insertToDOM(rows, cache);
@@ -234,9 +225,6 @@
           rows: rows_len ? rows : this.generateEmptyRow()
         }
       }
-      if( ! opts.cluster_height) {
-        this.exploreEnvironment(rows);
-      }
       var items_start = Math.max((opts.rows_in_cluster - opts.rows_in_block) * cluster_num, 0),
         items_end = items_start + opts.rows_in_cluster,
         top_offset = Math.max(items_start * opts.item_height, 0),
@@ -265,6 +253,10 @@
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
+      // explore row's height
+      if( ! this.options.cluster_height) {
+        this.exploreEnvironment(rows);
+      }
       var data = this.generate(rows, this.getClusterNum()),
         this_cluster_rows = data.rows.join(''),
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
