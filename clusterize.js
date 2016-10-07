@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.1 - 2016-09-15
+/*! Clusterize.js - v0.17.2 - 2016-10-07
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -106,8 +106,8 @@
       off('resize', window, resizeEv);
       self.html((clean ? self.generateEmptyRow() : rows).join(''));
     }
-    self.refresh = function() {
-      self.getRowsHeight(rows) && self.update(rows);
+    self.refresh = function(force) {
+      if(self.getRowsHeight(rows) || force) self.update(rows);
     }
     self.update = function(new_rows) {
       rows = isArray(new_rows)
