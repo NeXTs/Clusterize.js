@@ -297,7 +297,11 @@
       }
     },
     getChildNodes: function(tag) {
-        return [].slice.call(tag.children);
+        var child_nodes = tag.children, nodes = [];
+        for (var i = 0, ii = child_nodes.length; i < ii; i++) {
+            nodes.push(child_nodes[i]);
+        }
+        return nodes;
     },
     checkChanges: function(type, value, cache) {
       var changed = value != cache[type];
