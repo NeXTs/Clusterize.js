@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.2 - 2016-10-07
+/*! Clusterize.js - v0.17.3 - 2017-02-19
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -63,7 +63,7 @@
     var rows = isArray(data.rows)
         ? data.rows
         : self.fetchMarkup(),
-      cache = {data: '', bottom: 0},
+      cache = {data: '', top: 0, bottom: 0},
       scroll_top = self.scroll_elem.scrollTop;
 
     // append initial data
@@ -260,11 +260,12 @@
       var data = this.generate(rows, this.getClusterNum()),
         this_cluster_rows = data.rows.join(''),
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
+        top_offset_changed = this.checkChanges('bottom', data.top_offset, cache),
         only_bottom_offset_changed = this.checkChanges('bottom', data.bottom_offset, cache),
         callbacks = this.options.callbacks,
         layout = [];
 
-      if(this_cluster_content_changed) {
+      if(this_cluster_content_changed || top_offset_changed) {
         if(data.top_offset) {
           this.options.keep_parity && layout.push(this.renderExtraTag('keep-parity'));
           layout.push(this.renderExtraTag('top-space', data.top_offset));
