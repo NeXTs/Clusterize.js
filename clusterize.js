@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.3 - 2017-02-19
+/*! Clusterize.js - v0.17.4 - 2017-02-20
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -260,7 +260,7 @@
       var data = this.generate(rows, this.getClusterNum()),
         this_cluster_rows = data.rows.join(''),
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
-        top_offset_changed = this.checkChanges('bottom', data.top_offset, cache),
+        top_offset_changed = this.checkChanges('top', data.top_offset, cache),
         only_bottom_offset_changed = this.checkChanges('bottom', data.bottom_offset, cache),
         callbacks = this.options.callbacks,
         layout = [];
