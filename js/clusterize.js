@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.4 - 2017-02-20
+/*! Clusterize.js - v0.17.5 - 2017-02-25
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -177,6 +177,8 @@
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
       var node = nodes[Math.floor(nodes.length / 2)];
+      // don't measure height if element is hidden. fixes #98
+      if( ! node.offsetParent) return;
       opts.item_height = node.offsetHeight;
       // consider table's border-spacing
       if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
