@@ -104,7 +104,7 @@
     self.destroy = function(clean) {
       off('scroll', self.scroll_elem, scrollEv);
       off('resize', window, resizeEv);
-      self.html((clean ? self.generateEmptyRow() : rows).join(''));
+      self.html((clean ? self.generateEmptyRow() : rows));
     }
     self.refresh = function(force) {
       if(self.getRowsHeight(rows) || force) self.update(rows);
@@ -154,26 +154,23 @@
     constructor: Clusterize,
     // fetch existing markup
     fetchMarkup: function() {
-      var rows = [], rows_nodes = this.getChildNodes(this.content_elem);
-      while (rows_nodes.length) {
-        rows.push(rows_nodes.shift().outerHTML);
-      }
-      return rows;
+      return this.getChildNodes(this.content_elem);
     },
     // get tag name, content tag name, tag height, calc cluster height
     exploreEnvironment: function(rows) {
       var opts = this.options;
       opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! rows.length) return;
-      if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].match(/<([^>\s/]*)/)[1].toLowerCase();
-      if(this.content_elem.children.length <= 1) this.html(rows[0] + rows[0] + rows[0]);
+      if(this.content_elem.children.length <= 1) {
+        this.html([rows[0], rows[1], rows[2]]);
+      }
       if( ! opts.tag) opts.tag = this.content_elem.children[0].tagName.toLowerCase();
       this.getRowsHeight(rows);
     },
     getRowsHeight: function(rows) {
       var opts = this.options,
         prev_item_height = opts.item_height;
-      opts.cluster_height = 0
+      opts.cluster_height = 0;
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
       var node = nodes[Math.floor(nodes.length / 2)];
@@ -213,7 +210,7 @@
         td.appendChild(no_data_content);
       }
       empty_row.appendChild(td || no_data_content);
-      return [empty_row.outerHTML];
+      return [empty_row];
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num) {
@@ -225,7 +222,7 @@
           bottom_offset: 0,
           rows_above: 0,
           rows: rows_len ? rows : this.generateEmptyRow()
-        }
+        };
       }
       var items_start = Math.max((opts.rows_in_cluster - opts.rows_in_block) * cluster_num, 0),
         items_end = items_start + opts.rows_in_cluster,
@@ -244,14 +241,14 @@
         bottom_offset: bottom_offset,
         rows_above: rows_above,
         rows: this_cluster_rows
-      }
+      };
     },
     renderExtraTag: function(class_name, height) {
       var tag = document.createElement(this.options.tag),
         clusterize_prefix = 'clusterize-';
       tag.className = [clusterize_prefix + 'extra-row', clusterize_prefix + class_name].join(' ');
       height && (tag.style.height = height + 'px');
-      return tag.outerHTML;
+      return tag;
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
@@ -260,7 +257,7 @@
         this.exploreEnvironment(rows);
       }
       var data = this.generate(rows, this.getClusterNum()),
-        this_cluster_rows = data.rows.join(''),
+        this_cluster_rows = data.rows,
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
         top_offset_changed = this.checkChanges('top', data.top_offset, cache),
         only_bottom_offset_changed = this.checkChanges('bottom', data.bottom_offset, cache),
@@ -272,33 +269,33 @@
           this.options.keep_parity && layout.push(this.renderExtraTag('keep-parity'));
           layout.push(this.renderExtraTag('top-space', data.top_offset));
         }
-        layout.push(this_cluster_rows);
+        layout = layout.concat(this_cluster_rows);
         data.bottom_offset && layout.push(this.renderExtraTag('bottom-space', data.bottom_offset));
         callbacks.clusterWillChange && callbacks.clusterWillChange();
-        this.html(layout.join(''));
+        this.html(layout);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
         callbacks.clusterChanged && callbacks.clusterChanged();
       } else if(only_bottom_offset_changed) {
         this.content_elem.lastChild.style.height = data.bottom_offset + 'px';
       }
     },
-    // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
-    html: function(data) {
-      var content_elem = this.content_elem;
-      if(ie && ie <= 9 && this.options.tag == 'tr') {
-        var div = document.createElement('div'), last;
-        div.innerHTML = '<table><tbody>' + data + '</tbody></table>';
-        while((last = content_elem.lastChild)) {
-          content_elem.removeChild(last);
-        }
-        var rows_nodes = this.getChildNodes(div.firstChild.firstChild);
-        while (rows_nodes.length) {
-          content_elem.appendChild(rows_nodes.shift());
-        }
-      } else {
-        content_elem.innerHTML = data;
+    
+    empty: function(element) {
+      while (element.lastChild) {
+        element.removeChild(element.lastChild);
       }
     },
+
+    html: function(data) {
+      var content_elem = this.content_elem;
+
+      this.empty(content_elem);
+
+      for (var i = 0; i < data.length; i++) {
+        content_elem.appendChild(data[i]);
+      }
+    },
+
     getChildNodes: function(tag) {
         var child_nodes = tag.children, nodes = [];
         for (var i = 0, ii = child_nodes.length; i < ii; i++) {
@@ -311,7 +308,7 @@
       cache[type] = value;
       return changed;
     }
-  }
+  };
 
   // support functions
   function on(evt, element, fnc) {
