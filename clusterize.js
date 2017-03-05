@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.5 - 2017-02-25
+/*! Clusterize.js - v0.17.6 - 2017-03-05
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -63,7 +63,7 @@
     var rows = isArray(data.rows)
         ? data.rows
         : self.fetchMarkup(),
-      cache = {data: '', top: 0, bottom: 0},
+      cache = {},
       scroll_top = self.scroll_elem.scrollTop;
 
     // append initial data
@@ -161,24 +161,22 @@
       return rows;
     },
     // get tag name, content tag name, tag height, calc cluster height
-    exploreEnvironment: function(rows) {
+    exploreEnvironment: function(rows, cache) {
       var opts = this.options;
       opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! rows.length) return;
       if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].match(/<([^>\s/]*)/)[1].toLowerCase();
-      if(this.content_elem.children.length <= 1) this.html(rows[0] + rows[0] + rows[0]);
+      if(this.content_elem.children.length <= 1) cache.data = this.html(rows[0] + rows[0] + rows[0]);
       if( ! opts.tag) opts.tag = this.content_elem.children[0].tagName.toLowerCase();
       this.getRowsHeight(rows);
     },
     getRowsHeight: function(rows) {
       var opts = this.options,
         prev_item_height = opts.item_height;
-      opts.cluster_height = 0
+      opts.cluster_height = 0;
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
       var node = nodes[Math.floor(nodes.length / 2)];
-      // don't measure height if element is hidden. fixes #98
-      if( ! node.offsetParent) return;
       opts.item_height = node.offsetHeight;
       // consider table's border-spacing
       if(opts.tag == 'tr' && getStyle('borderCollapse', this.content_elem) != 'collapse')
@@ -257,7 +255,7 @@
     insertToDOM: function(rows, cache) {
       // explore row's height
       if( ! this.options.cluster_height) {
-        this.exploreEnvironment(rows);
+        this.exploreEnvironment(rows, cache);
       }
       var data = this.generate(rows, this.getClusterNum()),
         this_cluster_rows = data.rows.join(''),
