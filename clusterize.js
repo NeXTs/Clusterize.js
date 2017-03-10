@@ -190,12 +190,18 @@
       opts.block_height = opts.item_height * opts.rows_in_block;
       opts.rows_in_cluster = opts.blocks_in_cluster * opts.rows_in_block;
       opts.cluster_height = opts.blocks_in_cluster * opts.block_height;
+      opts.top_offset = this.content_elem.offsetTop;
+      opts.content_height = (rows.length * opts.item_height);
       return prev_item_height != opts.item_height;
     },
     // get current cluster number
     getClusterNum: function () {
-      this.options.scroll_top = this.scroll_elem.scrollTop;
-      return Math.floor(this.options.scroll_top / (this.options.cluster_height - this.options.block_height)) || 0;
+      var opts = this.options;
+      opts.scroll_top = this.scroll_elem.scrollTop - opts.top_offset;
+      if (opts.scroll_top >= opts.content_height) {
+        return Math.floor(opts.scroll_top / opts.content_height);
+      }
+      return Math.floor(opts.scroll_top / (opts.cluster_height - opts.block_height));
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
