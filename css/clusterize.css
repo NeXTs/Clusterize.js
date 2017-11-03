@@ -27,7 +27,8 @@
  * Outline removes default browser's borders for focused elements.
  */
 .clusterize-content{
-    outline: 0;
+  outline: 0;
+  counter-reset: clusterize-counter;
 }
 
 /* Centering message that appears when no data provided

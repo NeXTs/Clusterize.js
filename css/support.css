@@ -239,3 +239,25 @@
 .see-also-multiple:hover {
   background-position: 0 3%;
 }
+
+.clusterize-content.customize-counter {
+  list-style: none;
+}
+
+.clusterize-content.customize-counter li{
+  counter-increment: clusterize-counter;
+  position: relative;
+}
+
+.clusterize-content.customize-counter li:before {
+  content: counter(clusterize-counter);
+  position: absolute;
+  top: 3px;
+  left: -50px;
+  padding: 0px 7px;
+  line-height: 18px;
+  font-size: 10px;
+  border-radius: 10px;
+  background: #9fd3e8;
+  border: 1px solid rgba(0, 140, 186, 0.5);
+}

@@ -12,7 +12,8 @@ setTimeout(function() {
     rows: rows_ul,
     scrollId: 'ulExampleScroll',
     contentId: 'ulExampleContent',
-    rows_in_block: 20
+    rows_in_block: 20,
+    keep_parity: false
   });
   updateAmount($('#ulExampleAmount'), clusterize);
 }, 10);
@@ -22,7 +23,8 @@ setTimeout(function() {
     rows: rows_ul,
     scrollId: 'olExampleScroll',
     contentId: 'olExampleContent',
-    rows_in_block: 20
+    rows_in_block: 20,
+    keep_parity: false
   });
   updateAmount($('#olExampleAmount'), clusterize);
 }, 10);

@@ -109,10 +109,10 @@
         <h5>May it be used for anything other than a table? <span class="label success radius">Sure!</span></h5>
         <div class="row">
           <div class="large-4 medium-6 small-12 columns">
-            <h6>Ordered list</h6>
+            <h6>Ordered list <span class="label info radius"><a href='#faq'>Customized CSS counters!</a></span></h6>
             <div class="panel th example-ol">
               <div id="olExampleScroll" class="clusterize-scroll emulate-progress">
-                <ol id="olExampleContent" class="clusterize-content">
+                <ol id="olExampleContent" class="clusterize-content customize-counter">
                   <li class="clusterize-no-data">Loading…</li>
                 </ol>
               </div>
@@ -123,7 +123,7 @@
             <h6>Unordered list</h6>
             <div class="panel th example-ul">
               <div id="ulExampleScroll" class="clusterize-scroll emulate-progress">
-                <ul id="ulExampleContent" class="clusterize-content" start="25">
+                <ul id="ulExampleContent" class="clusterize-content">
                   <li class="clusterize-no-data">Loading…</li>
                 </ul>
               </div>
@@ -966,6 +966,30 @@ var clusterize = new Clusterize({
               </div>
             </div>
           </li>
+          <li class="accordion-navigation">
+            <a href="#panel7a">How to use CSS counters?</a>
+            <div id="panel7a" class="content">
+              Since v0.18.0 Clusterize supports <a href='https://www.w3schools.com/css/css_counters.asp' target="_blank">CSS counters</a>.<br/>
+              Counter name is <b>clusterize-counter</b>.<br/>
+              Counters may be used for list of <b>any</b> type (like <pre style='display: inline-block'>&lt;ul&gt;, &lt;div&gt;, &lt;table&gt;, etc...</pre>), not just <pre style='display: inline-block'>&lt;ol&gt;</pre>.<br/>
+              Here's example of counters used for <pre style='display: inline-block'>&lt;ol&gt;</pre>. If you need to apply counters to another list type then replace <pre style='display: inline-block'>ol</pre> and <pre style='display: inline-block'>li</pre> accordingly. 
+              <pre><code class="language-css">
+/* Hide default counters */
+ol.clusterize-content {
+  list-style: none;
+}
+
+/* Increment counter for every row */
+ol.clusterize-content li{
+  counter-increment: clusterize-counter;
+}
+
+/* Display counter and customize it's styling whatever you like */
+ol.clusterize-content li:before {
+  content: counter(clusterize-counter);
+}</code></pre>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -1001,6 +1025,7 @@ var clusterize = new Clusterize({
     <div class="large-6 medium-8 columns">
       <h5>Changelog</h5>
       <ul class="disc">
+        <li><b>0.18.0</b> CSS Counters support <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/126" target="_blank">#126</a>]</sup></li>
         <li><b>0.17.6</b> Recache data to prevent issues with hidden lists  <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/100" target="_blank">#100</a>]</sup></li>
         <li><b>0.17.5</b> Prevent height measurements for hidden element  <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/98" target="_blank">#98</a>]</sup></li>
         <li><b>0.17.3</b> Fixed rendering of similar markup <sup class="issue-num">[<a href="https://github.com/NeXTs/Clusterize.js/issues/97" target="_blank">#97</a>]</sup></li>
