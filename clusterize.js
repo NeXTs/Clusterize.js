@@ -1,4 +1,4 @@
-/*! Clusterize.js - v0.17.6 - 2017-03-05
+/*! Clusterize.js - v0.18.0 - 2017-11-04
 * http://NeXTs.github.com/Clusterize.js/
 * Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -275,6 +275,7 @@
         callbacks.clusterWillChange && callbacks.clusterWillChange();
         this.html(layout.join(''));
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
+        this.content_elem.style['counter-increment'] = 'clusterize-counter ' + (data.rows_above-1);
         callbacks.clusterChanged && callbacks.clusterChanged();
       } else if(only_bottom_offset_changed) {
         this.content_elem.lastChild.style.height = data.bottom_offset + 'px';
