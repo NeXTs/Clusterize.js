@@ -235,7 +235,7 @@
         rows_above++;
       }
       for (var i = items_start; i < items_end; i++) {
-        rows[i] && this_cluster_rows.push(rows[i]);
+        rows[i] && this_cluster_rows.push(rows[i].toString());
       }
       return {
         top_offset: top_offset,
