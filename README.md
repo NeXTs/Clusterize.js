@@ -8,6 +8,4 @@
 
 [Demo, usage, etc…](https://clusterize.js.org/)
 
-[![Code Sponsor](https://app.codesponsor.io/embed/VdXnbBqMapoM2ygsq3ca62Sy/NeXTs/Clusterize.js.svg)](https://app.codesponsor.io/link/VdXnbBqMapoM2ygsq3ca62Sy/NeXTs/Clusterize.js)
-
 [![example](http://nexts.github.io/Clusterize.js/img/table_example.gif)](https://clusterize.js.org/)
