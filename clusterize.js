@@ -176,6 +176,7 @@
       opts.cluster_height = 0;
       if( ! rows.length) return;
       var nodes = this.content_elem.children;
+      if( ! nodes.length) return;
       var node = nodes[Math.floor(nodes.length / 2)];
       opts.item_height = node.offsetHeight;
       // consider table's border-spacing
