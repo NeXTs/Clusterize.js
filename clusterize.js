@@ -1,6 +1,6 @@
-/*! Clusterize.js - v0.18.0 - 2017-11-04
-* http://NeXTs.github.com/Clusterize.js/
-* Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
+/* Clusterize.js - v0.18.1 - 2018-01-02
+ http://NeXTs.github.com/Clusterize.js/
+ Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
 ;(function(name, definition) {
     if (typeof module != 'undefined') module.exports = definition();
