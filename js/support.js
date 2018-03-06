@@ -1,7 +1,7 @@
 /**
  * Generate large data arrays successively, non-block UI
  */
-var rows = {'5000': [], '10000': [], '100000': [], '500000': []};
+var rows = {'5000': [], '10000': [], '100000': [], '400000': []};
 $.each(rows, function(_size, row) {
   asyncRowsGenerator(_size, row, 'table');
 });
@@ -110,7 +110,7 @@ function initStepTutorial() {
       case 1: steps.fillInitial(); break;
       case 3: steps.initClusterize(); break;
       case 5: steps.appendRows(100000); break;
-      case 7: steps.updateRows(5e+5); break;
+      case 7: steps.updateRows(4e+5); break;
     }
     step++
     $steps.eq(step-1).children('.label').removeClass('info').parent()
