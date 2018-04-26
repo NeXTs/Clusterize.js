@@ -34,12 +34,13 @@
       no_data_class: 'clusterize-no-data',
       no_data_text: 'No data',
       keep_parity: true,
+      dom_mode: false,
       callbacks: {}
     }
 
     // public parameters
     self.options = {};
-    var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks'];
+    var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'dom_mode', 'callbacks'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
         ? data[option]
@@ -104,7 +105,7 @@
     self.destroy = function(clean) {
       off('scroll', self.scroll_elem, scrollEv);
       off('resize', window, resizeEv);
-      self.html((clean ? self.generateEmptyRow() : rows).join(''));
+      self.html((clean ? self.generateEmptyRow() : rows));
     }
     self.refresh = function(force) {
       if(self.getRowsHeight(rows) || force) self.update(rows);
@@ -155,8 +156,12 @@
     // fetch existing markup
     fetchMarkup: function() {
       var rows = [], rows_nodes = this.getChildNodes(this.content_elem);
-      while (rows_nodes.length) {
-        rows.push(rows_nodes.shift().outerHTML);
+      if (this.options.dom_mode) {
+          rows = rows_nodes;
+      } else {
+        while (rows_nodes.length) {
+          rows.push(rows_nodes.shift().outerHTML);
+        }
       }
       return rows;
     },
@@ -166,7 +171,7 @@
       opts.content_tag = this.content_elem.tagName.toLowerCase();
       if( ! rows.length) return;
       if(ie && ie <= 9 && ! opts.tag) opts.tag = rows[0].match(/<([^>\s/]*)/)[1].toLowerCase();
-      if(this.content_elem.children.length <= 1) cache.data = this.html(rows[0] + rows[0] + rows[0]);
+      if(this.content_elem.children.length <= 1) cache.data = this.html([rows[0]]);
       if( ! opts.tag) opts.tag = this.content_elem.children[0].tagName.toLowerCase();
       this.getRowsHeight(rows);
     },
@@ -212,7 +217,7 @@
         td.appendChild(no_data_content);
       }
       empty_row.appendChild(td || no_data_content);
-      return [empty_row.outerHTML];
+      return opts.dom_mode ? [empty_row] : [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num) {
@@ -250,7 +255,7 @@
         clusterize_prefix = 'clusterize-';
       tag.className = [clusterize_prefix + 'extra-row', clusterize_prefix + class_name].join(' ');
       height && (tag.style.height = height + 'px');
-      return tag.outerHTML;
+      return this.options.dom_mode ? tag : tag.outerHTML;
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(rows, cache) {
@@ -259,7 +264,7 @@
         this.exploreEnvironment(rows, cache);
       }
       var data = this.generate(rows, this.getClusterNum()),
-        this_cluster_rows = data.rows.join(''),
+        this_cluster_rows = data.rows,
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
         top_offset_changed = this.checkChanges('top', data.top_offset, cache),
         only_bottom_offset_changed = this.checkChanges('bottom', data.bottom_offset, cache),
@@ -271,10 +276,10 @@
           this.options.keep_parity && layout.push(this.renderExtraTag('keep-parity'));
           layout.push(this.renderExtraTag('top-space', data.top_offset));
         }
-        layout.push(this_cluster_rows);
+        layout = layout.concat(this_cluster_rows);
         data.bottom_offset && layout.push(this.renderExtraTag('bottom-space', data.bottom_offset));
         callbacks.clusterWillChange && callbacks.clusterWillChange();
-        this.html(layout.join(''));
+        this.html(layout);
         this.options.content_tag == 'ol' && this.content_elem.setAttribute('start', data.rows_above);
         this.content_elem.style['counter-increment'] = 'clusterize-counter ' + (data.rows_above-1);
         callbacks.clusterChanged && callbacks.clusterChanged();
@@ -284,27 +289,38 @@
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
     html: function(data) {
-      var content_elem = this.content_elem;
+      var content_elem = this.content_elem, opts = this.options;
       if(ie && ie <= 9 && this.options.tag == 'tr') {
         var div = document.createElement('div'), last;
-        div.innerHTML = '<table><tbody>' + data + '</tbody></table>';
+        div.innerHTML = '<table><tbody></tbody></table>';
+        var tbody = div.firstChild.firstChild;
+        if (opts.dom_mode) {
+          for (var i = 0, ii = data.length; i < ii; i++) {
+            tbody.appendChild(data[i]);
+          }
+        } else {
+          tbody.innerHTML = data.join('');
+        }
         while((last = content_elem.lastChild)) {
           content_elem.removeChild(last);
         }
-        var rows_nodes = this.getChildNodes(div.firstChild.firstChild);
+        var rows_nodes = this.getChildNodes(tbody);
         while (rows_nodes.length) {
           content_elem.appendChild(rows_nodes.shift());
         }
       } else {
-        content_elem.innerHTML = data;
+        if (opts.dom_mode) {
+          while (content_elem.firstChild) content_elem.removeChild(content_elem.firstChild);
+          for (var i = 0, ii = data.length; i < ii; i++) {
+            content_elem.appendChild(data[i]);
+          }
+        } else {
+          content_elem.innerHTML = data.join('');
+        }
       }
     },
     getChildNodes: function(tag) {
-        var child_nodes = tag.children, nodes = [];
-        for (var i = 0, ii = child_nodes.length; i < ii; i++) {
-            nodes.push(child_nodes[i]);
-        }
-        return nodes;
+        return [].slice.call(tag.children);
     },
     checkChanges: function(type, value, cache) {
       var changed = value != cache[type];
