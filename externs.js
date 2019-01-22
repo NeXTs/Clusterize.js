@@ -27,4 +27,4 @@ var Clusterize = {
     "getScrollProgress": function() {},
     "clear": function() {},
     "destroy": function() {}
-}
+};
