@@ -195,7 +195,7 @@
     },
     // get current cluster number
     getClusterNum: function () {
-      this.options.scroll_top = this.scroll_elem.scrollTop;
+      this.options.scroll_top = this.scroll_elem.scrollTop - this.content_elem.offsetTop;
       return Math.floor(this.options.scroll_top / (this.options.cluster_height - this.options.block_height)) || 0;
     },
     // generate empty row if no data provided
