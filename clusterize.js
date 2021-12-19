@@ -1,4 +1,4 @@
-/* Clusterize.js - v0.18.1 - 2018-01-02
+/* Clusterize.js - v0.19.0 - 2021-12-19
  http://NeXTs.github.com/Clusterize.js/
  Copyright (c) 2015 Denis Lukov; Licensed GPLv3 */
 
@@ -87,7 +87,7 @@
               pointer_events_set = false;
           }, 50);
       }
-      if (last_cluster != (last_cluster = self.getClusterNum()))
+      if (last_cluster != (last_cluster = self.getClusterNum(rows)))
         self.insertToDOM(rows, cache);
       if (self.options.callbacks.scrollingProgress)
         self.options.callbacks.scrollingProgress(self.getScrollProgress());
@@ -194,9 +194,13 @@
       return prev_item_height != opts.item_height;
     },
     // get current cluster number
-    getClusterNum: function () {
-      this.options.scroll_top = this.scroll_elem.scrollTop;
-      return Math.floor(this.options.scroll_top / (this.options.cluster_height - this.options.block_height)) || 0;
+    getClusterNum: function (rows) {
+      var opts = this.options;
+      opts.scroll_top = this.scroll_elem.scrollTop;
+      var cluster_divider = opts.cluster_height - opts.block_height;
+      var current_cluster = Math.floor(opts.scroll_top / cluster_divider);
+      var max_cluster = Math.floor((rows.length * opts.item_height) / cluster_divider);
+      return Math.min(current_cluster, max_cluster);
     },
     // generate empty row if no data provided
     generateEmptyRow: function() {
@@ -215,7 +219,7 @@
       return [empty_row.outerHTML];
     },
     // generate cluster for current scroll position
-    generate: function (rows, cluster_num) {
+    generate: function (rows) {
       var opts = this.options,
         rows_len = rows.length;
       if (rows_len < opts.rows_in_block) {
@@ -226,7 +230,7 @@
           rows: rows_len ? rows : this.generateEmptyRow()
         }
       }
-      var items_start = Math.max((opts.rows_in_cluster - opts.rows_in_block) * cluster_num, 0),
+      var items_start = Math.max((opts.rows_in_cluster - opts.rows_in_block) * this.getClusterNum(rows), 0),
         items_end = items_start + opts.rows_in_cluster,
         top_offset = Math.max(items_start * opts.item_height, 0),
         bottom_offset = Math.max((rows_len - items_end) * opts.item_height, 0),
@@ -258,7 +262,7 @@
       if( ! this.options.cluster_height) {
         this.exploreEnvironment(rows, cache);
       }
-      var data = this.generate(rows, this.getClusterNum()),
+      var data = this.generate(rows),
         this_cluster_rows = data.rows.join(''),
         this_cluster_content_changed = this.checkChanges('data', this_cluster_rows, cache),
         top_offset_changed = this.checkChanges('top', data.top_offset, cache),
