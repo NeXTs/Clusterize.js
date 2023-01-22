@@ -1,6 +1,6 @@
 {
   "name": "clusterize.js",
-  "version": "0.19.0",
+  "version": "1.0.0",
   "description": "Tiny vanilla JS plugin to display large data sets easily",
   "main": "clusterize.js",
   "style": "clusterize.css",
@@ -20,7 +20,7 @@
     "cluster"
   ],
   "author": "Denis Lukov",
-  "license": "GPLv3",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NeXTs/Clusterize.js/issues"
   },
